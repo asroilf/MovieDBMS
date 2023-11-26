@@ -16,4 +16,23 @@ class Movie{
 		releasedYear = 2009;
 		runningTime = 153;
 	}
+	 
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public int getReleasedYear() {
+        return releasedYear;
+    }
+
+    public int getRunningTime() {
+        return runningTime;
+    }
+}
+
 }
