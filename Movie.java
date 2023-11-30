@@ -11,7 +11,7 @@ class Movie{
 		this.runningTime = runningTime;
 	}
 	public Movie(){
-		title = "Inglourious Basterds";
+		title = "Kill Bill: Vol II";
 		director = "Quentin Tarantino";
 		releasedYear = 2009;
 		runningTime = 153;
