@@ -19,7 +19,7 @@ public class Main {
             oos.writeObject(u1);
             oos.writeObject(u2);
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
 
         try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("DB/UserFile.txt"))){

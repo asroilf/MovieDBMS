@@ -70,7 +70,7 @@ public class User implements Serializable{
             ObjectInputStream dis = new ObjectInputStream(fr)) {
             ArrayList<User> al = new ArrayList<>();
             User temp;
-            while((temp = (User)dis.readObject()) == null ){
+            while((temp = (User)dis.readObject()) != null ){
                 al.add(temp);
                 System.out.println(temp.getName());
             }
