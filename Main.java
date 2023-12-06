@@ -28,5 +28,7 @@ public class Main {
         }catch(Exception e){
             System.out.println("CHeckpoint ----------------------------> " + e.getMessage());
         }
+
+        User.login("void", "null");
     }
 }

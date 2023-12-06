@@ -1,4 +1,10 @@
+import java.io.DataInputStream;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class User implements Serializable{
     private String username;
@@ -16,6 +22,13 @@ public class User implements Serializable{
         this.username = username;
         this.name = "John Wick";
         this.password = password;
+        dob = new int[]{9,9,1999};
+    }
+
+    public User(){
+        this.username = "void";
+        this.name = "John Wick";
+        this.password = "password";
         dob = new int[]{9,9,1999};
     }
 
@@ -51,5 +64,21 @@ public class User implements Serializable{
     public void setDob(int[] dob) {
         this.dob = dob;
     }
-    
-}
+
+    public static int login(String username, String password){
+        try (FileInputStream fr = new FileInputStream("DB/UserFile.txt");
+            ObjectInputStream dis = new ObjectInputStream(fr)) {
+            ArrayList<User> al = new ArrayList<>();
+            User temp;
+            while((temp = (User)dis.readObject()) == null ){
+                al.add(temp);
+                System.out.println(temp.getName());
+            }
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+  
+} 
