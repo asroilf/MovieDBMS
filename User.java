@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class User implements Serializable{
     private String username;
@@ -66,19 +67,27 @@ public class User implements Serializable{
     }
 
     public static int login(String username, String password){
+        ArrayList<User> al = new ArrayList<>();
         try (FileInputStream fr = new FileInputStream("DB/UserFile.txt");
             ObjectInputStream dis = new ObjectInputStream(fr)) {
-            ArrayList<User> al = new ArrayList<>();
             User temp;
-            while((temp = (User)dis.readObject()) == null ){
+            while((temp = (User)dis.readObject()) != null ){
                 al.add(temp);
-                System.out.println(temp.getName());
+                // System.out.println(temp.getName() + ", " + temp.getUsername() + ", pass: " + temp.getPassword());
             }
-            return 1;
-        } catch (Exception e) {
+        } catch (EOFException e){
+            System.out.println("End of the file!");
+        }catch (Exception e) {
             e.printStackTrace();
-            return -1;
         }
+        Iterator<User> iter = al.iterator();
+        while(iter.hasNext()){
+            User u = iter.next();
+            if(u.getUsername().equals(username) && u.getPassword().equals(password)){
+                return 1;
+            }
+        }
+        return -1;
     }
   
 } 

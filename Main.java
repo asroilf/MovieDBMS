@@ -29,6 +29,8 @@ public class Main {
             System.out.println("CHeckpoint ----------------------------> " + e.getMessage());
         }
 
-        User.login("void", "null");
+        System.out.println(User.login("hPotter", "Harry's_account1"));
+
+        System.out.println(User.login("oldsport", "user12"));
     }
 }
