@@ -72,7 +72,7 @@ public class User implements Serializable{
         return countUsers;
     }
 
-    public static int login(String username, String password){
+    public static int login(String username, String password) throws ValidationException{
         ArrayList<User> al = new ArrayList<>();
         try (FileInputStream fr = new FileInputStream("DB/UserFile.txt");
             ObjectInputStream dis = new ObjectInputStream(fr)) {
@@ -93,7 +93,7 @@ public class User implements Serializable{
                 return 1;
             }
         }
-        return -1;
+        throw new ValidationException();
     }
   
 } 
