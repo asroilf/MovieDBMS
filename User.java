@@ -1,28 +1,30 @@
-import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class User implements Serializable{
     private String username;
     private String name;
     private String password;
     private int[] dob;
+    private static int countUsers=0;
 
     public User(String username, String name, String password, int[] dob){
         this.username = username;
         this.name = name;
         this.password = password;
         this.dob = dob;
+        countUsers++;
     }
     public User(String username, String password){
         this.username = username;
         this.name = "John Wick";
         this.password = password;
         dob = new int[]{9,9,1999};
+        countUsers++;
     }
 
     public User(){
@@ -30,6 +32,7 @@ public class User implements Serializable{
         this.name = "John Wick";
         this.password = "password";
         dob = new int[]{9,9,1999};
+        countUsers++;
     }
 
     @Override
@@ -65,20 +68,32 @@ public class User implements Serializable{
         this.dob = dob;
     }
 
-    public static int login(String username, String password){
+    public int getCountUser(){
+        return countUsers;
+    }
+
+    public static int login(String username, String password) throws ValidationException{
+        ArrayList<User> al = new ArrayList<>();
         try (FileInputStream fr = new FileInputStream("DB/UserFile.txt");
             ObjectInputStream dis = new ObjectInputStream(fr)) {
-            ArrayList<User> al = new ArrayList<>();
             User temp;
-            while((temp = (User)dis.readObject()) == null ){
+            while((temp = (User)dis.readObject()) != null ){
                 al.add(temp);
-                System.out.println(temp.getName());
+                System.out.println(temp.getName() + ", " + temp.getUsername() + ", pass: " + temp.getPassword());
             }
-            return 1;
-        } catch (Exception e) {
+        } catch (EOFException e){
+            System.out.println("End of the file!");
+        }catch (Exception e) {
             e.printStackTrace();
-            return -1;
         }
+        Iterator<User> iter = al.iterator();
+        while(iter.hasNext()){
+            User u = iter.next();
+            if(u.getUsername().equals(username) && u.getPassword().equals(password)){
+                return 1;
+            }
+        }
+        throw new ValidationException("Incorrect username and/or password, better luck next time!");
     }
   
 } 
