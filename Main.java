@@ -29,6 +29,18 @@ public class Main {
             System.out.println("CHeckpoint ----------------------------> " + e.getMessage());
         }
 
-        User.login("void", "null");
+        try {
+            System.out.println(User.login("hPotter", "Harry's_account1"));
+            
+        } catch (Exception e) {
+            System.out.println("User not found");
+        }
+
+        try{
+            User.login("oldsport", "user12");
+        }
+        catch(ValidationException e){
+            System.out.println("User not found!");
+        }
     }
 }
