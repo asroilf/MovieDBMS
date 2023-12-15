@@ -1,14 +1,8 @@
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,7 +13,7 @@ public class Main {
             oos.writeObject(u1);
             oos.writeObject(u2);
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
 
         try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("DB/UserFile.txt"))){
