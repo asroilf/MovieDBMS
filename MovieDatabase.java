@@ -14,7 +14,9 @@ public class MovieDatabase {
         ArrayList<Movie> al = allMovies();
 
         Iterator<Movie> iter = al.iterator();
-        for(Movie x: iter){
+
+        while(iter.hasNext()){
+            Movie x = iter.next();
             if(x.getTitle().equals(movie.getTitle())){
                 check=false;
             }
@@ -61,7 +63,8 @@ public class MovieDatabase {
     public static Movie retrieveMovie(String title) {
         ArrayList<Movie> al = allMovies();
         Iterator<Movie> iter = al.iterator();
-        for(Movie x: iter){
+        while(iter.hasNext()){
+            Movie x = iter.next();
             if(x.getTitle().equals(title)){
                 return x;
             }
