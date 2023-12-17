@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class MovieDatabase {
     private ArrayList<Movie> movies;
@@ -9,11 +10,23 @@ public class MovieDatabase {
     }
 
     public static void addMovie(Movie movie) {
-        try (FileOutputStream fos = new FileOutputStream(new File("DB/Movie.txt"));
-                ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-            oos.writeObject(movie);
-        } catch (Exception e) {
-            e.printStackTrace();
+        boolean check=true;
+        ArrayList<Movie> al = allMovies();
+
+        Iterator<Movie> iter = al.iterator();
+        for(Movie x: iter){
+            if(x.getTitle().equals(movie.getTitle())){
+                check=false;
+            }
+        }
+
+        if(check){
+            try (FileOutputStream fos = new FileOutputStream(new File("DB/Movie.txt"));
+                    ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+                oos.writeObject(movie);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -46,46 +59,28 @@ public class MovieDatabase {
     }
 
     public static Movie retrieveMovie(String title) {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("DB/Movie.txt"))) {
-            Movie m;
-
-            while ((m = (Movie) ois.readObject()) != null) {
-                if (m.getTitle().equals(title)) {
-                    return m;
-                }
+        ArrayList<Movie> al = allMovies();
+        Iterator<Movie> iter = al.iterator();
+        for(Movie x: iter){
+            if(x.getTitle().equals(title)){
+                return x;
             }
-        } catch (Exception e) {
-            System.out.println("Movie doesn't exist");
         }
-
         return new Movie();
-
     }
 
-    public void removeMovie(Movie movie) {
-        if (movies.contains(movie)) {
-            movies.remove(movie);
-            System.out.println(movie.getTitle());
-        } else {
-            System.out.println("Movie doesn't exist.");
-        }
-    }
-
-    public Movie getMovieTitle(String title) {
-        for (Movie movie : movies) {
-            if (movie.getTitle().equalsIgnoreCase(title)) {
-                return movie;
+    public static ArrayList<Movie> allMovies() {
+        ArrayList<Movie> al = new ArrayList<>();
+        try(FileInputStream fis = new FileInputStream("DB/Movie.txt");
+            ObjectInputStream ois = new ObjectInputStream(fis)){
+            Movie temp;
+            while((temp = (Movie)ois.readObject()) != null){
+                al.add(temp);
             }
+        }catch(Exception e){
+            e.printStackTrace();
         }
-        return null;
-    }
-
-    public void AllMovies() {
-        System.out.println("List of Movies in the Database:");
-        for (Movie movie : movies) {
-            System.out.println(movie);
-            System.out.println("----------------------");
-        }
+        return al;
     }
 
 }

@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -43,5 +45,16 @@ public class Main {
         ArrayList<Movie> m = new ArrayList<>();
         m.add(MovieDatabase.retrieveMovie("Attack on Titan"));
         System.out.println(m.get(0));
+
+        
+        
+
+        try {
+            FileReader fr = new FileReader("DB/Movie.csv");
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 }
