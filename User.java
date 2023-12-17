@@ -93,7 +93,7 @@ public class User implements Serializable{
                 return 1;
             }
         }
-        throw new ValidationException("Incorrect username and/or password, better luck next time!");
+        throw new ValidationException();
     }
   
 } 
