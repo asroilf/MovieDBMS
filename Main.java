@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+
 public class Main {
     public static void main(String[] args) {
         User u1 = new User("hPotter", "Harry Potter", "Harry's_account1", new int[] { 9, 9, 1999 });
@@ -28,33 +31,6 @@ public class Main {
         } catch (Exception e) {
             System.out.println("Checkpoint ----------------------------> " + e.getMessage());
         }
-
-        try {
-            System.out.println(User.login("hPotter", "Harry's_account1"));
-
-        } catch (Exception e) {
-            System.out.println("User not found");
-        }
-
-        try {
-            User.login("oldsport", "user12");
-        } catch (Exception e) {
-            System.out.println("User not found!");
-        }
-        Movie object = new Movie("Attack on Titan", "SomeRanomdude", 2016, 1);
-        Movie object2 = new Movie("Star Wars", "SomeRanomdude", 2015, 1);
-        Movie object3 = new Movie("Godfather", "SomeRanomdude", 1990, 1);
-        Movie object4 = new Movie("Attack on Titan", "SomeRanomdude", 2016, 1);
-        // MovieDatabase.addMovie(object);
-        // MovieDatabase.addMovie(object2);
-        // MovieDatabase.addMovie(object3);
-        // MovieDatabase.addMovie(object4);
-        // MovieDatabase.addMovie(object2);
-        ArrayList<Movie> m = MovieDatabase.allMovies();
-        Iterator<Movie> iterator = m.iterator();
-        while(iterator.hasNext()){
-            System.out.println(iterator.next().getTitle());
-        }
-
+        new GUI();
     }
 }
