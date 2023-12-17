@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Main {
@@ -41,19 +42,18 @@ public class Main {
             System.out.println("User not found!");
         }
         Movie object = new Movie("Attack on Titan", "SomeRanomdude", 2016, 1);
-        MovieDatabase.addMovie(object);
-        ArrayList<Movie> m = new ArrayList<>();
-        m.add(MovieDatabase.retrieveMovie("Attack on Titan"));
-        System.out.println(m.get(0));
-
-        
-        
-
-        try {
-            FileReader fr = new FileReader("DB/Movie.csv");
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        Movie object2 = new Movie("Star Wars", "SomeRanomdude", 2015, 1);
+        Movie object3 = new Movie("Godfather", "SomeRanomdude", 1990, 1);
+        Movie object4 = new Movie("Attack on Titan", "SomeRanomdude", 2016, 1);
+        // MovieDatabase.addMovie(object);
+        // MovieDatabase.addMovie(object2);
+        // MovieDatabase.addMovie(object3);
+        // MovieDatabase.addMovie(object4);
+        // MovieDatabase.addMovie(object2);
+        ArrayList<Movie> m = MovieDatabase.allMovies();
+        Iterator<Movie> iterator = m.iterator();
+        while(iterator.hasNext()){
+            System.out.println(iterator.next().getTitle());
         }
 
     }
