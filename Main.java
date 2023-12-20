@@ -15,8 +15,8 @@ import javax.swing.JFrame;
 
 public class Main {
     public static void main(String[] args) {
-        User u1 = new User("hPotter", "Harry Potter", "Harry's_account1", new int[] { 9, 9, 1999 });
-        User u2 = new User("oldsport", "Jay Gatsby", "user123", new int[] { 9, 4, 1970 });
+        User u1 = new User("hPotter", "Harry Potter", "Harry's_account1");
+        User u2 = new User("oldsport", "Jay Gatsby", "user123");
         try (FileOutputStream fos = new FileOutputStream(new File("DB/UserFile.txt"));
                 ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(u1);
