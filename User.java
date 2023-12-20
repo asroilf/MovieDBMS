@@ -1,6 +1,8 @@
-import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,14 +11,14 @@ public class User implements Serializable {
     private String username;
     private String name;
     private String password;
-    private int[] dob;
+    // private int[] dob;
     private static int countUsers = 0;
 
-    public User(String username, String name, String password, int[] dob) {
+    public User(String username, String name, String password) {
         this.username = username;
         this.name = name;
         this.password = password;
-        this.dob = dob;
+        // this.dob = dob;
         countUsers++;
     }
 
@@ -24,7 +26,7 @@ public class User implements Serializable {
         this.username = username;
         this.name = "John Wick";
         this.password = password;
-        dob = new int[] { 9, 9, 1999 };
+        // dob = new int[] { 9, 9, 1999 };
         countUsers++;
     }
 
@@ -32,13 +34,13 @@ public class User implements Serializable {
         this.username = "void";
         this.name = "John Wick";
         this.password = "password";
-        dob = new int[] { 9, 9, 1999 };
+        // dob = new int[] { 9, 9, 1999 };
         countUsers++;
     }
 
     @Override
     public String toString() {
-        return this.name + ", born in: " + dob[2];
+        return this.name;
     }
 
     public String getUsername() {
@@ -65,40 +67,50 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public int[] getDob() {
-        return dob;
-    }
-
-    public void setDob(int[] dob) {
-        this.dob = dob;
-    }
-
     public int getCountUser() {
         return countUsers;
     }
 
     public static int login(String username, String password) {
-        ArrayList<User> al = new ArrayList<>();
-        try (FileInputStream fr = new FileInputStream("DB/UserFile.txt");
-                ObjectInputStream dis = new ObjectInputStream(fr)) {
-            User temp;
-            while ((temp = (User) dis.readObject()) != null) {
-                al.add(temp);
-                System.out.println(temp.getName() + ", " + temp.getUsername() + ", pass: " + temp.getPassword());
-            }
-        } catch (EOFException e) {
-            System.out.println("End of the file!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Iterator<User> iter = al.iterator();
-        while (iter.hasNext()) {
-            User u = iter.next();
-            if (u.getUsername().equals(username) && u.getPassword().equals(password)) {
+        ArrayList<User> alu = allUsers();
+        Iterator<User> iterator = alu.iterator();
+        while(iterator.hasNext()){
+            User temp = iterator.next();
+            if(temp.getUsername().equals(username) && temp.getPassword().equals(password)){
+                System.out.println("Welcome back!");
                 return 1;
             }
         }
+        System.out.println("User isn't found, please doublecheck you credentials!");
         return -1;
+    }
+
+    private static ArrayList<User> allUsers() {
+        ArrayList<User> al = new ArrayList<>();
+
+        try (FileReader fr = new FileReader("DB/User.csv");
+            BufferedReader bis = new BufferedReader(fr)) {
+                String str;
+                bis.readLine();
+                while((str = bis.readLine()) != null){
+                    String[] strar = str.split(", ");
+                    User temp = new User(strar[0], strar[1], strar[2]);
+                    al.add(temp);
+                }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return al;
+    }
+
+    private static void register(User user){
+        String str = String.format("%s, %s, %s\n", user.getName(), user.getUsername(), user.getPassword());
+        try (BufferedWriter bfrr = new BufferedWriter(new FileWriter("DB/User.csv", true))) {
+            bfrr.append(str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
