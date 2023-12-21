@@ -10,27 +10,28 @@ public class MovieDatabase {
     }
 
     public static void addMovie(Movie movie) {
-        boolean check=true;
+        boolean check = true;
         ArrayList<Movie> al = allMovies();
 
         Iterator<Movie> iter = al.iterator();
 
-        while(iter.hasNext()){
+        while (iter.hasNext()) {
             Movie x = iter.next();
-            if(x.getTitle().equals(movie.getTitle())){
-                check=false;
+            if (x.getTitle().equals(movie.getTitle())) {
+                check = false;
             }
         }
-        if(check){
+        if (check) {
             try (FileWriter fw = new FileWriter("DB/Movie.csv", true);
-                BufferedWriter bw = new BufferedWriter(fw)){
-                    String temp = String.format("%s, %s, %d, %d\n",  movie.getTitle(), movie.getDirector(),  movie.getReleasedYear(), movie.getRunningTime());
-                    bw.append(temp);
-                    // bw.newLine?
-            }catch(Exception e){
+                    BufferedWriter bw = new BufferedWriter(fw)) {
+                String temp = String.format("%s, %s, %d, %d\n", movie.getTitle(), movie.getDirector(),
+                        movie.getReleasedYear(), movie.getRunningTime());
+                bw.append(temp);
+                // bw.newLine?
+            } catch (Exception e) {
 
             }
-        }else{
+        } else {
             System.out.println("Such movie already exist!");
         }
     }
@@ -65,9 +66,9 @@ public class MovieDatabase {
     public static Movie retrieveMovie(String title) {
         ArrayList<Movie> al = allMovies();
         Iterator<Movie> iter = al.iterator();
-        while(iter.hasNext()){
+        while (iter.hasNext()) {
             Movie x = iter.next();
-            if(x.getTitle().equals(title)){
+            if (x.getTitle().equals(title)) {
                 return x;
             }
         }
@@ -77,29 +78,29 @@ public class MovieDatabase {
     public static ArrayList<Movie> allMovies() {
         ArrayList<Movie> al = new ArrayList<>();
         // try(FileInputStream fis = new FileInputStream("DB/Movie.txt");
-        //     ObjectInputStream ois = new ObjectInputStream(fis)){
-        //     Movie temp;
-        //     try{
-        //         while((temp = (Movie)ois.readObject()) != null){
-        //             al.add(temp);
-        //         }
-        //     }catch(EOFException e){
+        // ObjectInputStream ois = new ObjectInputStream(fis)){
+        // Movie temp;
+        // try{
+        // while((temp = (Movie)ois.readObject()) != null){
+        // al.add(temp);
+        // }
+        // }catch(EOFException e){
 
-        //     }
+        // }
 
         // }catch(Exception e){
-        //     e.printStackTrace();
+        // e.printStackTrace();
         // }
 
         try (FileReader fr = new FileReader("DB/Movie.csv");
-            BufferedReader bis = new BufferedReader(fr)) {
-                String str;
-                bis.readLine();
-                while((str = bis.readLine()) != null){
-                    String[] strar = str.split(", ");
-                    Movie temp = new Movie(strar[0], strar[1], Integer.parseInt(strar[2]), Integer.parseInt(strar[3]));
-                    al.add(temp);
-                }
+                BufferedReader bis = new BufferedReader(fr)) {
+            String str;
+            bis.readLine();
+            while ((str = bis.readLine()) != null) {
+                String[] strar = str.split(", ");
+                Movie temp = new Movie(strar[0], strar[1], Integer.parseInt(strar[2]), Integer.parseInt(strar[3]));
+                al.add(temp);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

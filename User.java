@@ -74,9 +74,9 @@ public class User implements Serializable {
     public static int login(String username, String password) {
         ArrayList<User> alu = allUsers();
         Iterator<User> iterator = alu.iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             User temp = iterator.next();
-            if(temp.getUsername().equals(username) && temp.getPassword().equals(password)){
+            if (temp.getUsername().equals(username) && temp.getPassword().equals(password)) {
                 System.out.println("Welcome back!");
                 return 1;
             }
@@ -89,14 +89,14 @@ public class User implements Serializable {
         ArrayList<User> al = new ArrayList<>();
 
         try (FileReader fr = new FileReader("DB/User.csv");
-            BufferedReader bis = new BufferedReader(fr)) {
-                String str;
-                bis.readLine();
-                while((str = bis.readLine()) != null){
-                    String[] strar = str.split(", ");
-                    User temp = new User(strar[0], strar[1], strar[2]);
-                    al.add(temp);
-                }
+                BufferedReader bis = new BufferedReader(fr)) {
+            String str;
+            bis.readLine();
+            while ((str = bis.readLine()) != null) {
+                String[] strar = str.split(", ");
+                User temp = new User(strar[0], strar[1], strar[2]);
+                al.add(temp);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,7 +104,7 @@ public class User implements Serializable {
         return al;
     }
 
-    private static void register(User user){
+    private static void register(User user) {
         String str = String.format("%s, %s, %s\n", user.getName(), user.getUsername(), user.getPassword());
         try (BufferedWriter bfrr = new BufferedWriter(new FileWriter("DB/User.csv", true))) {
             bfrr.append(str);
