@@ -1,5 +1,4 @@
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,10 +7,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class GUI extends JFrame implements ActionListener {
     JButton login;
+    JButton register;
 
     GUI() {
 
@@ -26,7 +27,7 @@ public class GUI extends JFrame implements ActionListener {
         // panel for register button
         JPanel jp = new JPanel();
         jp.setSize(300, 200);
-        JButton register = new JButton("Register");
+        register = new JButton("Register");
         register.addActionListener(this);
 
         // panel for login button both implementing ActionListener Method
@@ -48,6 +49,10 @@ public class GUI extends JFrame implements ActionListener {
             this.dispose();
             LoginPage loginPage = new LoginPage();
         }
+        else if(e.getSource() == register){
+            this.dispose();
+            new RegisterPage();
+        }
         throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
     }
 
@@ -64,12 +69,6 @@ public class GUI extends JFrame implements ActionListener {
     
             // panel for login button both implementing ActionListener Method
             JButton login = new JButton("Login");
-            // login.addActionListener(this);
-            // register.setBounds(100, 10, 50, 50);
-            // JPanel jp = new JPanel();
-            // jp.setSize(300, 200);
-            // jp.add(login);
-            // this.add(jp);
     
             JTextField username = new JTextField();
             JTextField password = new JTextField();
@@ -84,6 +83,38 @@ public class GUI extends JFrame implements ActionListener {
     
             // this.add(jp);
             this.add(jp1);
+        }
+    }
+
+    public class RegisterPage extends JFrame{
+        RegisterPage(){
+            this.setVisible(true);
+            this.setSize(1920, 1080);
+            this.setTitle("Local Movie Database");
+            this.getComponents();
+            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            JPanel panel = new JPanel();
+            JTextField name = new JTextField();
+            JTextField username = new JTextField();
+            JPasswordField password = new JPasswordField();
+            name.setPreferredSize(new Dimension(200, 30));
+            name.setName("Name");
+            name.replaceSelection("name");
+            username.setPreferredSize(new Dimension(200, 30));
+            username.setName("username");
+            password.setPreferredSize(new Dimension(200, 30));
+            password.setName("password");
+            password.replaceSelection("pass");
+            panel.add(name);
+            panel.add(username);
+            panel.add(password);
+
+            JButton register  = new JButton("Register");
+            register.setFocusPainted(false);
+            panel.add(register);
+
+            this.add(panel);
         }
     }
 
