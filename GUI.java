@@ -1,3 +1,4 @@
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,6 +49,42 @@ public class GUI extends JFrame implements ActionListener {
             LoginPage loginPage = new LoginPage();
         }
         throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+    }
+
+
+    public class LoginPage extends JFrame {
+
+        public LoginPage() {
+            // Window setep hd
+            this.setVisible(true);
+            this.setSize(1920, 1080);
+            this.setTitle("Local Movie Database");
+            this.getComponents();
+            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    
+            // panel for login button both implementing ActionListener Method
+            JButton login = new JButton("Login");
+            // login.addActionListener(this);
+            // register.setBounds(100, 10, 50, 50);
+            // JPanel jp = new JPanel();
+            // jp.setSize(300, 200);
+            // jp.add(login);
+            // this.add(jp);
+    
+            JTextField username = new JTextField();
+            JTextField password = new JTextField();
+            JPanel jp1 = new JPanel();
+            username.setPreferredSize(new Dimension(200, 30));
+            password.setPreferredSize(new Dimension(200, 30));
+    
+            jp1.setSize(300, 200);
+            jp1.add(username);
+            jp1.add(password);
+            jp1.add(login);
+    
+            // this.add(jp);
+            this.add(jp1);
+        }
     }
 
 }
