@@ -77,7 +77,6 @@ public class User implements Serializable {
         while (iterator.hasNext()) {
             User temp = iterator.next();
             if (temp.getUsername().equals(username) && temp.getPassword().equals(password)) {
-                System.out.println("Welcome back!");
                 return 1;
             }
         }

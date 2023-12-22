@@ -56,36 +56,6 @@ public class GUI extends JFrame implements ActionListener {
         throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
     }
 
-
-    public class LoginPage extends JFrame {
-
-        public LoginPage() {
-            // Window setep hd
-            this.setVisible(true);
-            this.setSize(1920, 1080);
-            this.setTitle("Local Movie Database");
-            this.getComponents();
-            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    
-            // panel for login button both implementing ActionListener Method
-            JButton login = new JButton("Login");
-    
-            JTextField username = new JTextField();
-            JTextField password = new JTextField();
-            JPanel jp1 = new JPanel();
-            username.setPreferredSize(new Dimension(200, 30));
-            password.setPreferredSize(new Dimension(200, 30));
-    
-            jp1.setSize(300, 200);
-            jp1.add(username);
-            jp1.add(password);
-            jp1.add(login);
-    
-            // this.add(jp);
-            this.add(jp1);
-        }
-    }
-
     public class RegisterPage extends JFrame{
         RegisterPage(){
             this.setVisible(true);
