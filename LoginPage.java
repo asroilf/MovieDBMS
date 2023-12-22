@@ -25,7 +25,7 @@ import javax.swing.JTextField;
     
             // panel for login button both implementing ActionListener Method
             login = new JButton("Login");
-    
+            login.addActionListener(this);
             username = new JTextField();
             password = new JPasswordField();
             JPanel jp1 = new JPanel();
@@ -51,7 +51,8 @@ import javax.swing.JTextField;
     
             
             login = new JButton("Login");
-    
+            login.addActionListener(this);
+            JLabel label = new JLabel(str);
             username = new JTextField();
             password = new JPasswordField();
             JPanel jp1 = new JPanel();
@@ -61,6 +62,7 @@ import javax.swing.JTextField;
             jp1.setSize(300, 200);
             jp1.add(username);
             jp1.add(password);
+            jp1.add(label);
             jp1.add(login);
     
             // this.add(jp);
@@ -70,14 +72,16 @@ import javax.swing.JTextField;
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == login){
+                this.dispose();
                 String uname = username.getText();
-                String pass = password.getSelectedText();
+                String pass = String.valueOf(password.getPassword());
                 int status = User.login(uname, pass);
+                System.out.println(status);
                 if(status == 1){
                     new LoginPage();
                 }
                 else{
-                    new LoginPage("Not valid");
+                    new LoginPage("~Invalid credentials, please double-check your username/password!");
                 }
             }
         }
