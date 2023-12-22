@@ -1,25 +1,121 @@
-import java.awt.Font;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
-public class GUI extends JFrame{
-    
-    GUI(){
-        JLabel welcomeLable = new JLabel();
-        welcomeLable.setText("Hello, welcome to Local Movie Database!");
-        welcomeLable.setHorizontalTextPosition(JLabel.CENTER);
-        welcomeLable.setVerticalTextPosition(JLabel.TOP);
-        welcomeLable.setHorizontalAlignment(0);
-        welcomeLable.setVerticalAlignment(0);
-        welcomeLable.setFont(new Font("Courier", Font.PLAIN, 25));
+public class GUI extends JFrame implements ActionListener {
+    JButton login;
+    JButton register;
+
+    GUI() {
+
+        // Window setep hd
         this.setVisible(true);
-        this.setSize(750, 800);
+        this.setSize(1920, 1080);
         this.setTitle("Local Movie Database");
         this.setIconImage(new ImageIcon("DB/image.png").getImage());
         this.getComponents();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.add(welcomeLable);
+
+        // panel for register button
+        JPanel jp = new JPanel();
+        jp.setSize(300, 200);
+        register = new JButton("Register");
+        register.addActionListener(this);
+
+        // panel for login button both implementing ActionListener Method
+        login = new JButton("Login");
+        login.addActionListener(this);
+        register.setBounds(100, 10, 50, 50);
+        jp.add(register);
+        jp.add(login);
+        this.add(jp);
+
+        // inside of login panel
+        JTextField tf = new JTextField();
+
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == login) {
+            this.dispose();
+            LoginPage loginPage = new LoginPage();
+        }
+        else if(e.getSource() == register){
+            this.dispose();
+            new RegisterPage();
+        }
+        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+    }
+
+
+    public class LoginPage extends JFrame {
+
+        public LoginPage() {
+            // Window setep hd
+            this.setVisible(true);
+            this.setSize(1920, 1080);
+            this.setTitle("Local Movie Database");
+            this.getComponents();
+            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    
+            // panel for login button both implementing ActionListener Method
+            JButton login = new JButton("Login");
+    
+            JTextField username = new JTextField();
+            JTextField password = new JTextField();
+            JPanel jp1 = new JPanel();
+            username.setPreferredSize(new Dimension(200, 30));
+            password.setPreferredSize(new Dimension(200, 30));
+    
+            jp1.setSize(300, 200);
+            jp1.add(username);
+            jp1.add(password);
+            jp1.add(login);
+    
+            // this.add(jp);
+            this.add(jp1);
+        }
+    }
+
+    public class RegisterPage extends JFrame{
+        RegisterPage(){
+            this.setVisible(true);
+            this.setSize(1920, 1080);
+            this.setTitle("Local Movie Database");
+            this.getComponents();
+            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            JPanel panel = new JPanel();
+            JTextField name = new JTextField();
+            JTextField username = new JTextField();
+            JPasswordField password = new JPasswordField();
+            name.setPreferredSize(new Dimension(200, 30));
+            name.setName("Name");
+            name.replaceSelection("name");
+            username.setPreferredSize(new Dimension(200, 30));
+            username.setName("username");
+            password.setPreferredSize(new Dimension(200, 30));
+            password.setName("password");
+            password.replaceSelection("pass");
+            panel.add(name);
+            panel.add(username);
+            panel.add(password);
+
+            JButton register  = new JButton("Register");
+            register.setFocusPainted(false);
+            panel.add(register);
+
+            this.add(panel);
+        }
+    }
+
 }
