@@ -87,6 +87,7 @@ public class GUI extends JFrame implements ActionListener {
 
             register  = new JButton("Register");
             register.setFocusPainted(false);
+            register.addActionListener(this);
             panel.add(register);
 
             this.add(panel);
@@ -97,6 +98,7 @@ public class GUI extends JFrame implements ActionListener {
             if(e.getSource() == register){
                 User newUser = new User(this.username.getText(), this.name.getText(), String.valueOf(this.password.getPassword()));
                 User.register(newUser);
+                new LoginPage();
             }
             throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
         }
