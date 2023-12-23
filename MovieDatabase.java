@@ -3,11 +3,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class MovieDatabase {
-    private ArrayList<Movie> movies;
+    // private ArrayList<Movie> movies;
 
-    public MovieDatabase() {
-        movies = new ArrayList<>();
-    }
+    // public MovieDatabase() {
+    //     movies = new ArrayList<>();
+    // }
 
     public static void addMovie(Movie movie) {
         boolean check = true;

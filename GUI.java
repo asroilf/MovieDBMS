@@ -56,7 +56,12 @@ public class GUI extends JFrame implements ActionListener {
         throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
     }
 
-    public class RegisterPage extends JFrame{
+    public class RegisterPage extends JFrame implements ActionListener{
+        JButton register;
+        JTextField username;
+        JPasswordField password;
+        JTextField name;
+
         RegisterPage(){
             this.setVisible(true);
             this.setSize(1920, 1080);
@@ -65,9 +70,9 @@ public class GUI extends JFrame implements ActionListener {
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             JPanel panel = new JPanel();
-            JTextField name = new JTextField();
-            JTextField username = new JTextField();
-            JPasswordField password = new JPasswordField();
+            name = new JTextField();
+            username = new JTextField();
+            password = new JPasswordField();
             name.setPreferredSize(new Dimension(200, 30));
             name.setName("Name");
             name.replaceSelection("name");
@@ -80,11 +85,20 @@ public class GUI extends JFrame implements ActionListener {
             panel.add(username);
             panel.add(password);
 
-            JButton register  = new JButton("Register");
+            register  = new JButton("Register");
             register.setFocusPainted(false);
             panel.add(register);
 
             this.add(panel);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(e.getSource() == register){
+                User newUser = new User(this.username.getText(), this.name.getText(), String.valueOf(this.password.getPassword()));
+                User.register(newUser);
+            }
+            throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
         }
     }
 
