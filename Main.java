@@ -3,8 +3,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
+
 public class Main {
     public static void main(String[] args) {
         User u1 = new User("hPotter", "Harry Potter", "Harry's_account1");

@@ -73,8 +73,9 @@ import javax.swing.JTextField;
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == login){
                 String uname = username.getText();
-                String pass = String.valueOf(password.getSelectedText());
+                String pass = String.valueOf(password.getPassword());
                 int status = User.login(uname, pass);
+                System.out.println(pass);
                 if(status == 1){
                     this.dispose();
                     new GUI();

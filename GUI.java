@@ -47,7 +47,7 @@ public class GUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == login) {
             this.dispose();
-            LoginPage loginPage = new LoginPage();
+            new LoginPage();
         }
         else if(e.getSource() == register){
             this.dispose();
