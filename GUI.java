@@ -96,6 +96,7 @@ public class GUI extends JFrame implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == register){
+                this.dispose();
                 User newUser = new User(this.username.getText(), this.name.getText(), String.valueOf(this.password.getPassword()));
                 User.register(newUser);
                 new LoginPage();
