@@ -36,7 +36,6 @@ import javax.swing.JTextField;
             jp1.add(password);
             jp1.add(login);
     
-            // this.add(jp);
             this.add(jp1);
         }
 
@@ -54,7 +53,7 @@ import javax.swing.JTextField;
             username = new JTextField();
             password = new JPasswordField();
             JPanel jp1 = new JPanel();
-            JLabel label = new JLabel("~invalid credentials!");
+            JLabel label = new JLabel(str);
             username.setPreferredSize(new Dimension(200, 30));
             password.setPreferredSize(new Dimension(200, 30));
             login.addActionListener(this);
@@ -65,7 +64,6 @@ import javax.swing.JTextField;
             jp1.add(label);
             jp1.add(login);
     
-            // this.add(jp);
             this.add(jp1);
         }
 
@@ -82,7 +80,7 @@ import javax.swing.JTextField;
                 }
                 else{
                     this.dispose();
-                    new LoginPage("Not valid");
+                    new LoginPage("~ Not valid!");
                 }
             }
         }

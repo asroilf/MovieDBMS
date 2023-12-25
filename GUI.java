@@ -16,7 +16,6 @@ public class GUI extends JFrame implements ActionListener {
 
     GUI() {
 
-        // Window setep hd
         this.setVisible(true);
         this.setSize(1920, 1080);
         this.setTitle("Local Movie Database");
@@ -24,13 +23,11 @@ public class GUI extends JFrame implements ActionListener {
         this.getComponents();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // panel for register button
         JPanel jp = new JPanel();
         jp.setSize(300, 200);
         register = new JButton("Register");
         register.addActionListener(this);
 
-        // panel for login button both implementing ActionListener Method
         login = new JButton("Login");
         login.addActionListener(this);
         register.setBounds(100, 10, 50, 50);
@@ -38,7 +35,6 @@ public class GUI extends JFrame implements ActionListener {
         jp.add(login);
         this.add(jp);
 
-        // inside of login panel
         JTextField tf = new JTextField();
 
     }
