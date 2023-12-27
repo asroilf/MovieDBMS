@@ -25,13 +25,27 @@ public class WelcomePage extends JFrame implements ActionListener{
 
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==login){
-            new Test();
+            this.dispose();
+            new Login();
         }
         if(e.getSource()==register){
-            new GUI();
+            this.dispose();
+            new Register();
         }
     }
 }

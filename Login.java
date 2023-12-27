@@ -5,10 +5,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class Test extends JFrame implements ActionListener{
+public class Login extends JFrame implements ActionListener{
     Container container = getContentPane();
     JLabel usernameL = new JLabel("Username: ");
     JLabel passwordL = new JLabel("Password: ");
@@ -16,10 +17,11 @@ public class Test extends JFrame implements ActionListener{
     JPasswordField password = new JPasswordField();
     JButton login = new JButton("Login");
 
-    public Test(){
+    public Login(){
         basic();
         container.setLayout(null);
         setSize();
+        login.addActionListener(this);
         container.add(usernameL);
         container.add(passwordL);
         container.add(username);
@@ -44,7 +46,24 @@ public class Test extends JFrame implements ActionListener{
 
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == login){
-            
+            String uname = username.getText();
+            String pass = String.valueOf(password.getPassword());
+            if(uname.length()==0 || pass.length()==0){
+                JOptionPane.showMessageDialog(this, "Please fill all the credentials part");
+            }
+            else{
+                int status = User.login(uname, pass);
+                System.out.println(pass);
+                if(status == 1){
+                    this.dispose();
+                    new GUI("Login");
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "No user with such credentials!");
+                }
+            }
+
         }
     }
 }
+
