@@ -35,9 +35,6 @@ public class GUI extends JFrame implements ActionListener {
         jp.add(register);
         jp.add(login);
         this.add(jp);
-
-        JTextField tf = new JTextField();
-
     }
 
     GUI(String login){
