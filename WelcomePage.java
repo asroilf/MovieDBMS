@@ -21,20 +21,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         register.addActionListener(this);
         this.add(register);
         this.add(login);
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
