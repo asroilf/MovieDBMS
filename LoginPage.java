@@ -76,7 +76,7 @@ import javax.swing.JTextField;
                 System.out.println(pass);
                 if(status == 1){
                     this.dispose();
-                    new GUI("Login");
+                    new GUI();
                 }
                 else{
                     this.dispose();
