@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JScrollBar;
 import javax.swing.JTextField;
 
     public class LoginPage extends JFrame implements ActionListener{
@@ -37,7 +36,6 @@ import javax.swing.JTextField;
             jp1.add(password);
             jp1.add(login);
     
-            // this.add(jp);
             this.add(jp1);
         }
 
@@ -48,7 +46,7 @@ import javax.swing.JTextField;
             this.setTitle("Local Movie Database");
             this.getComponents();
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    
+            
             
             login = new JButton("Login");
             login.addActionListener(this);
@@ -56,16 +54,17 @@ import javax.swing.JTextField;
             username = new JTextField();
             password = new JPasswordField();
             JPanel jp1 = new JPanel();
+            JLabel label = new JLabel(str);
             username.setPreferredSize(new Dimension(200, 30));
             password.setPreferredSize(new Dimension(200, 30));
-    
+            login.addActionListener(this);
+
             jp1.setSize(300, 200);
             jp1.add(username);
             jp1.add(password);
             jp1.add(label);
             jp1.add(login);
     
-            // this.add(jp);
             this.add(jp1);
         }
 
@@ -76,14 +75,18 @@ import javax.swing.JTextField;
                 String uname = username.getText();
                 String pass = String.valueOf(password.getPassword());
                 int status = User.login(uname, pass);
-                System.out.println(status);
+
+                System.out.println(pass);
                 if(status == 1){
-                    new LoginPage();
+                    this.dispose();
+                    new GUI();
                 }
                 else{
-                    new LoginPage("~Invalid credentials, please double-check your username/password!");
+                    this.dispose();
+                    new LoginPage("~ Not valid!");
                 }
             }
         }
 
     }
+

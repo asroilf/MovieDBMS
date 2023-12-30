@@ -1,5 +1,4 @@
 import java.io.Serializable;
-import java.io.*;
 
 class Movie implements Serializable {
 	private String title;

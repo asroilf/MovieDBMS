@@ -103,7 +103,7 @@ public class User implements Serializable {
         return al;
     }
 
-    private static void register(User user) {
+    public static void register(User user) {
         String str = String.format("%s, %s, %s\n", user.getName(), user.getUsername(), user.getPassword());
         try (BufferedWriter bfrr = new BufferedWriter(new FileWriter("DB/User.csv", true))) {
             bfrr.append(str);

@@ -1,91 +1,46 @@
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
+import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
-public class GUI extends JFrame implements ActionListener {
-    JButton login;
-    JButton register;
+public class GUI extends JFrame {
+    JButton addWatchlist = new JButton("Watchlist");
+    JButton remove = new JButton("Remove");
+    Container container = getContentPane();
 
     GUI() {
+        container.setLayout(null);
 
-        // Window setep hd
         this.setVisible(true);
         this.setSize(1920, 1080);
         this.setTitle("Local Movie Database");
-        this.setIconImage(new ImageIcon("DB/image.png").getImage());
-        this.getComponents();
+        // Remove this line as it's not needed and can cause issues: this.getComponents();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // panel for register button
-        JPanel jp = new JPanel();
-        jp.setSize(300, 200);
-        register = new JButton("Register");
-        register.addActionListener(this);
-
-        // panel for login button both implementing ActionListener Method
-        login = new JButton("Login");
-        login.addActionListener(this);
-        register.setBounds(100, 10, 50, 50);
-        jp.add(register);
-        jp.add(login);
-        this.add(jp);
-
-        // inside of login panel
-        JTextField tf = new JTextField();
-
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == login) {
-            this.dispose();
-            LoginPage loginPage = new LoginPage();
-        }
-        else if(e.getSource() == register){
-            this.dispose();
-            new RegisterPage();
-        }
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
-    }
-
-    public class RegisterPage extends JFrame{
-        RegisterPage(){
-            this.setVisible(true);
-            this.setSize(1920, 1080);
-            this.setTitle("Local Movie Database");
-            this.getComponents();
-            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        ArrayList<Movie> alm = MovieDatabase.allMovies();
+        int x = 10;
+        
+        for (int i = 0; i < alm.size(); i++) {
+            Border insideBorder = BorderFactory.createTitledBorder(alm.get(i).getTitle());
             JPanel panel = new JPanel();
-            JTextField name = new JTextField();
-            JTextField username = new JTextField();
-            JPasswordField password = new JPasswordField();
-            name.setPreferredSize(new Dimension(200, 30));
-            name.setName("Name");
-            name.replaceSelection("name");
-            username.setPreferredSize(new Dimension(200, 30));
-            username.setName("username");
-            password.setPreferredSize(new Dimension(200, 30));
-            password.setName("password");
-            password.replaceSelection("pass");
-            panel.add(name);
-            panel.add(username);
-            panel.add(password);
+            String str = String.format("Director: %s, Year: %d, Runtime: %d", alm.get(i).getDirector(), alm.get(i).getReleasedYear(), alm.get(i).getRunningTime());
+            JLabel label = new JLabel(str);
+            // panel.setLayout(new BorderLayout());
+            panel.add(label);
+            
+            // Create and add the "Add to Watchlist" button
+            JButton addToWatchlistButton = new JButton("Add to Watchlist");
+            // addToWatchlistButton.setPreferredSize(new Dimension(120, 30));
+            panel.add(addToWatchlistButton, BorderLayout.WEST);
+            
+            // Create and add the "Remove" button
+            JButton removeButton = new JButton("Remove");
+            // removeButton.setPreferredSize(new Dimension(120, 30));
+            panel.add(removeButton, BorderLayout.EAST);
 
-            JButton register  = new JButton("Register");
-            register.setFocusPainted(false);
-            panel.add(register);
-
-            this.add(panel);
+            // panel.setBorder(insideBorder);
+            panel.setBounds(250, x, 650, 100);
+            container.add(panel);
+            x += 100;
         }
     }
-
 }
