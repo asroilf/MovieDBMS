@@ -1,6 +1,9 @@
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,6 +13,16 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 class Register extends JFrame implements ActionListener{
+    private static User loggedIn;
+
+    static User getLoggedIn() {
+        return loggedIn;
+    }
+
+    static void setLoggedIn(User user){
+        loggedIn =  user;
+    }
+
     JButton register = new JButton("Register");
     JLabel usernameL = new JLabel("Username: ");
     JTextField username = new JTextField();
@@ -58,10 +71,27 @@ class Register extends JFrame implements ActionListener{
             }
             else{
                 this.dispose();
-                User newUser = new User(this.name.getText(),this.username.getText(), String.valueOf(this.password.getPassword()));
+                User newUser = new User(this.username.getText(), this.name.getText(), String.valueOf(this.password.getPassword()));
                 User.register(newUser);
-                new Login();
+                String username = String.format("DB/UserDB/DB%s.csv", newUser.getUsername());
+                File file = new File(username);
+                try {
+                    file.createNewFile();
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+                try (FileWriter fw = new FileWriter(file)) {
+                    fw.write("Title, Director, Year, Runtime");
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+                loggedIn = newUser;
+                new GUI();
             }
         }
     }
+
+
 }

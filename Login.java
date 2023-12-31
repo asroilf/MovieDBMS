@@ -51,9 +51,10 @@ public class Login extends JFrame implements ActionListener{
                 JOptionPane.showMessageDialog(this, "Please fill all the credentials part");
             }
             else{
-                int status = User.login(uname, pass);
+                User status = User.login(uname, pass);
                 System.out.println(pass);
-                if(status == 1){
+                if(status != null){
+                    Register.setLoggedIn(status);
                     this.dispose();
                     new GUI();
                 }
