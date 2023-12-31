@@ -2,6 +2,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.annotation.processing.FilerException;
+
 public class MovieDatabase {
     // ... other methods ...
 
@@ -32,7 +34,16 @@ public class MovieDatabase {
             e.printStackTrace();
         }
     }
+    public static void addMovie(Movie movie) {
 
+        try (FileWriter fw = new FileWriter("DB/Movie.csv", true)) {
+            String temp = String.format("%s, %s, %d, %d\n", movie.getTitle(), movie.getDirector(), movie.getReleasedYear(), movie.getRunningTime());
+            fw.append(temp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } 
+
+    }
     public static Movie retrieveMovie(String title) {
         ArrayList<Movie> al = allMovies();
         Iterator<Movie> iter = al.iterator();
@@ -62,4 +73,23 @@ public class MovieDatabase {
 
         return al;
     }
+
+    public static ArrayList<Movie> getUserDB(User user) {
+        ArrayList<Movie> al = new ArrayList<>();
+        
+        try(FileReader fr = new FileReader("DB/UserDB/DB" + user.getUsername() + ".csv");
+        BufferedReader bis = new BufferedReader(fr)) {
+            String str;
+            bis.readLine();
+            while ((str = bis.readLine()) != null) {
+                String[] strar = str.split(", ");
+                Movie temp = new Movie(strar[0], strar[1], Integer.parseInt(strar[2]), Integer.parseInt(strar[3]));
+                al.add(temp);
+            }
+        }  catch (IOException e) {
+            e.printStackTrace();
+        }
+        return al;
+    }
+
 }

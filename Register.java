@@ -20,7 +20,7 @@ class Register extends JFrame implements ActionListener{
     }
 
     static void setLoggedIn(User user){
-        loggedIn =  user;
+        loggedIn = user;
     }
 
     JButton register = new JButton("Register");

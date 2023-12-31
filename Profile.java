@@ -6,16 +6,16 @@ import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
-public class GUI extends JFrame {
+public class Profile extends JFrame {
     private Container container = getContentPane();
 
-    GUI() {
+    Profile() {
         this.setVisible(true);
         this.setSize(800, 600); // Adjust the size according to your preference
         this.setTitle("Local Movie Database");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        ArrayList<Movie> alm = MovieDatabase.allMovies();
+        ArrayList<Movie> alm = MovieDatabase.getUserDB(Register.getLoggedIn());
 
         JPanel contentPanel = new JPanel(new GridBagLayout());
 
@@ -27,26 +27,17 @@ public class GUI extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        JButton addMovie = new JButton("Add Movie");
-        addMovie.addActionListener((e) -> {
+        container.setLayout(new BorderLayout()); //
+        JButton homepage = new JButton("Homepage");
+        homepage.addActionListener((e) -> {
             this.dispose();
-            new AddMovie();
+            new GUI();
         });
-        addMovie.setPreferredSize(new Dimension(200, 75));
-        JPanel addPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        addPanel.add(addMovie);
-        // container.add(addPanel, BorderLayout.NORTH);
 
-        JButton profile = new JButton("Profile");
-        profile.addActionListener((e) -> {
-            this.dispose();
-            new Profile();
-        });
-        profile.setPreferredSize(new Dimension(200, 75));
-        // addPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        addPanel.add(profile);
-        container.add(addPanel, BorderLayout.NORTH);
-
+        homepage.setPreferredSize(new Dimension(200, 75));
+        JPanel homepagePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        homepagePanel.add(homepage);
+        container.add(homepagePanel, BorderLayout.NORTH);
         for (int i = 0; i < alm.size(); i++) {
             String title = alm.get(i).getTitle();
             String director = alm.get(i).getDirector();
@@ -68,33 +59,9 @@ public class GUI extends JFrame {
 
             // Create a panel for buttons
             JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 5, 5));
-
-            // Create and add the "Add to Watchlist" button
-            JButton addToWatchlistButton = new JButton("Add to Watchlist");
-            addToWatchlistButton.addActionListener((e) -> {
-                User user = Register.getLoggedIn();
-                try (FileWriter fw = new FileWriter(String.format("DB/UserDB/DB%s.csv", user.getUsername()), true)) {
-                    String movie = String.format("\n%s, %s, %d, %d", title, director, year, runtime);
-                    fw.append(movie);
-                } catch (Exception ex) {
-                    // TODO: handle exception
-                }
-            });
-            buttonPanel.add(addToWatchlistButton);
-
             // Create and add the "Remove" button
             JButton removeButton = new JButton("Remove");
             buttonPanel.add(removeButton);
-
-            // JButton AddMovieButton = new JButton("Add Movie");
-            // buttonPanel.add(AddMovieButton);
-
-            // Add ActionListener to the "Remove" button
-            // AddMovieButton.addActionListener(new ActionListener() {
-            // public void actionPerformed(ActionEvent e) {
-
-            // }
-            // });
 
             // Create a reference to the movie for the ActionListener
             Movie movie = alm.get(i);
@@ -126,5 +93,22 @@ public class GUI extends JFrame {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         container.add(scrollPane);
+    }
+
+    private class AddMovie extends JFrame {
+        private Container container = getContentPane();
+
+        AddMovie() {
+            this.setVisible(true);
+            this.setSize(800, 600); // Adjust the size according to your preference
+            this.setTitle("Local Movie Database");
+            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            JTextField title = new JTextField();
+            JTextField director = new JTextField();
+            JTextField year = new JTextField();
+            JTextField running = new JTextField();
+
+        }
     }
 }
