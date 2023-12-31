@@ -30,14 +30,6 @@ public class User implements Serializable {
         countUsers++;
     }
 
-    public User() {
-        this.username = "void";
-        this.name = "John Wick";
-        this.password = "password";
-        // dob = new int[] { 9, 9, 1999 };
-        countUsers++;
-    }
-
     @Override
     public String toString() {
         return this.name;
@@ -71,17 +63,17 @@ public class User implements Serializable {
         return countUsers;
     }
 
-    public static int login(String username, String password) {
+    public static User login(String username, String password) {
         ArrayList<User> alu = allUsers();
         Iterator<User> iterator = alu.iterator();
         while (iterator.hasNext()) {
             User temp = iterator.next();
             if (temp.getUsername().equals(username) && temp.getPassword().equals(password)) {
-                return 1;
+                return temp;
             }
         }
         System.out.println("User isn't found, please doublecheck you credentials!");
-        return -1;
+        return null;
     }
 
     private static ArrayList<User> allUsers() {
@@ -104,7 +96,7 @@ public class User implements Serializable {
     }
 
     public static void register(User user) {
-        String str = String.format("%s, %s, %s\n", user.getName(), user.getUsername(), user.getPassword());
+        String str = String.format("%s, %s, %s\n", user.getUsername(), user.getName(), user.getPassword());
         try (BufferedWriter bfrr = new BufferedWriter(new FileWriter("DB/User.csv", true))) {
             bfrr.append(str);
         } catch (Exception e) {

@@ -3,6 +3,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class GUI extends JFrame {
@@ -24,20 +25,29 @@ public class GUI extends JFrame {
         gbc.weightx = 1;
         gbc.weighty = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(100, 10, 10, 10);
+        gbc.insets = new Insets(10, 10, 10, 10);
+        
+        JButton addMovie = new JButton("Add Movie");
+        addMovie.addActionListener((e)->{
+            
+        });
 
         for (int i = 0; i < alm.size(); i++) {
-            Border insideBorder = BorderFactory.createTitledBorder(alm.get(i).getTitle());
+            String title = alm.get(i).getTitle();
+            String director = alm.get(i).getDirector();
+            int year = alm.get(i).getReleasedYear();
+            int runtime = alm.get(i).getRunningTime();
+            Border insideBorder = BorderFactory.createTitledBorder(title);
             JPanel panel = new JPanel();
             panel.setLayout(new BorderLayout());
             panel.setBorder(insideBorder);
 
             String movieInfo = String.format(
                     "<strong>Director:</strong> %s, <br><strong>Year:</strong> %d, <br><strong>Runtime:</strong> %d",
-                    alm.get(i).getDirector(), alm.get(i).getReleasedYear(), alm.get(i).getRunningTime());
+                    director, year, runtime);
 
             JLabel label = new JLabel(
-                    "<html><div style='text-align: left; padding:20px;'>" + movieInfo + "</div></html>");
+                    "<html><div style='text-align: left; padding:10px;'>" + movieInfo + "</div></html>");
 
             panel.add(label, BorderLayout.CENTER);
 
@@ -46,6 +56,15 @@ public class GUI extends JFrame {
 
             // Create and add the "Add to Watchlist" button
             JButton addToWatchlistButton = new JButton("Add to Watchlist");
+            addToWatchlistButton.addActionListener((e)->{
+                User user = Register.getLoggedIn();
+                try (FileWriter fw = new FileWriter(String.format("DB/UserDB/DB%s.csv", user.getUsername()), true)) {
+                    String movie = String.format("\n%s, %s, %d, %d", title, director, year, runtime);
+                    fw.append(movie);
+                } catch (Exception ex) {
+                    // TODO: handle exception
+                }
+            });
             buttonPanel.add(addToWatchlistButton);
 
             // Create and add the "Remove" button
@@ -84,11 +103,25 @@ public class GUI extends JFrame {
         container.add(scrollPane);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new GUI();
-            }
-        });
+
+
+    private class AddMovie extends JFrame {
+        private Container container = getContentPane();
+
+        AddMovie(){
+            this.setVisible(true);
+            this.setSize(800, 600); // Adjust the size according to your preference
+            this.setTitle("Local Movie Database");
+            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            
+            JTextField title = new JTextField();
+            JTextField director = new JTextField();
+            JTextField year = new JTextField();
+            JTextField running = new JTextField();
+
+            
+        }
+
     }
 }
+

@@ -1,8 +1,8 @@
 
 public class Main {
     public static void main(String[] args) {
-        // new WelcomePage();
+        new WelcomePage();
         // t.setResizable(false);
-        new GUI();
+        // new GUI();
     }
 }
