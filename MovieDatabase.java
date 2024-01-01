@@ -2,7 +2,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.annotation.processing.FilerException;
 
 public class MovieDatabase {
     // ... other methods ...
