@@ -107,7 +107,6 @@ public class MovieDatabase {
 
         try (FileWriter fw = new FileWriter("DB/UserDB/DB" + user.getUsername() + ".csv");
                 BufferedWriter bw = new BufferedWriter(fw)) {
-
             bw.write("Title, Director, Year, Runtime\n");
 
             for (Movie movie : al) {
