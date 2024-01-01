@@ -8,20 +8,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.TreeSet;
 
 public class GUI extends JFrame {
     private Container container = getContentPane();
     private JPanel contentPanel;
-    public static ArrayList<Movie> alm = MovieDatabase.allMovies();
+
+    static ArrayList<Movie> alm = MovieDatabase.allMovies();
 
     GUI() {
         this.setVisible(true);
         this.setSize(800, 600); // Adjust the size according to your preference
         this.setTitle("Local Movie Database");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
         contentPanel = new JPanel(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -52,7 +50,7 @@ public class GUI extends JFrame {
         addPanel.add(profile);
 
         String[] str = {"sort by: ", "Title", "Year", "Runtime"};
-        JComboBox sortBy = new JComboBox(str);
+        JComboBox<String> sortBy = new JComboBox<>(str);
         
         sortBy.addActionListener((e)->{
             if(sortBy.getSelectedItem().equals("Year")){
@@ -72,20 +70,17 @@ public class GUI extends JFrame {
             this.dispose();
             new GUI();
         });
-
-        TreeSet<String> t = new TreeSet<>();
         
-        Iterator iter = MovieDatabase.directors.iterator();
+        Iterator<String> iter = MovieDatabase.directors.iterator();
 
-        String[] strr = directors.size();
+        String strr[] = new String[MovieDatabase.directors.size()];
         int j=0;
         while(iter.hasNext()){
             strr[j] = iter.next();
             j++;
         }
 
-
-        JComboBox filter = new JComboBox<>(strr);
+        JComboBox<String> filter = new JComboBox<>(strr);
         filter.addActionListener((e)->{
             alm.stream().filter((ee)->{
                 return ee.getDirector().equals(filter.getSelectedItem());
@@ -161,7 +156,7 @@ public class GUI extends JFrame {
 
             panel.add(buttonPanel, BorderLayout.SOUTH);
             contentPanel.add(panel, gbc);
-            gbc.gridy++; // Move to the next row
+            gbc.gridy++; 
         }
 
         JScrollPane scrollPane = new JScrollPane(contentPanel);

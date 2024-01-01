@@ -69,9 +69,9 @@ class Movie implements Serializable, Comparable<Movie> {
 	}
 
 	@Override
-	public int compareTo(Movie o) {
-		return  o.getReleasedYear() - this.releasedYear;
-	}
-	
+    public int compareTo(Movie o) {
+        return o.releasedYear - this.getReleasedYear();
+    }
 }
+
 // Blyoop

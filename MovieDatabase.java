@@ -1,10 +1,12 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.TreeSet;
 
 
 public class MovieDatabase {
-    // ... other methods ...
+
+    static TreeSet<String> directors = new TreeSet<>(); 
 
     public static void removeMovie(String movieTitle) {
         ArrayList<Movie> al = allMovies();
@@ -66,6 +68,7 @@ public class MovieDatabase {
                 String[] strar = str.split(", ");
                 Movie temp = new Movie(strar[0], strar[1], Integer.parseInt(strar[2]), Integer.parseInt(strar[3]));
                 al.add(temp);
+                directors.add(strar[1]);
             }
         } catch (IOException e) {
             e.printStackTrace();
