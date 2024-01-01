@@ -5,18 +5,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 
 public class GUI extends JFrame {
     private Container container = getContentPane();
     private JPanel contentPanel;
+
+    static ArrayList<Movie> alm = MovieDatabase.allMovies();
 
     GUI() {
         this.setVisible(true);
         this.setSize(800, 600); // Adjust the size according to your preference
         this.setTitle("Local Movie Database");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        ArrayList<Movie> alm = MovieDatabase.allMovies();
 
         contentPanel = new JPanel(new GridBagLayout());
 
@@ -46,6 +48,44 @@ public class GUI extends JFrame {
         profile.setPreferredSize(new Dimension(200, 75));
         // addPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         addPanel.add(profile);
+        
+        Iterator<String> iter = MovieDatabase.directors.iterator();
+
+        String strr[] = new String[MovieDatabase.directors.size()];
+        int j=0;
+        while(iter.hasNext()){
+            strr[j] = iter.next();
+            j++;
+        }
+
+        JComboBox filter = new JComboBox<>(strr);
+        filter.addActionListener((e)->{
+            alm.stream().filter((ee)->{
+                return ee.getDirector().equals(filter.getSelectedItem());
+            });
+            this.dispose();
+            new GUI();
+        });
+        String[] str = {"Title", "Year", "Runtime"};
+        JComboBox sortBy = new JComboBox(str);
+        // String[] str = {"Title", "Year", "Runtime"};
+        
+        sortBy.addActionListener((e)->{
+            if(sortBy.getSelectedItem().equals("Year")){
+                Collections.sort(alm);
+                contentPanel.revalidate();
+                contentPanel.repaint();
+                this.dispose();
+                new GUI();
+            }
+            // alm.sort((Movie m1, Movie m2)->{
+            //     return m1.getReleasedYear() - m2.getReleasedYear();
+            // });
+        });
+        
+        addPanel.add(sortBy);
+        addPanel.add(filter);
+
         container.add(addPanel, BorderLayout.NORTH);
 
         for (int i = 0; i < alm.size(); i++) {
@@ -111,7 +151,7 @@ public class GUI extends JFrame {
 
             panel.add(buttonPanel, BorderLayout.SOUTH);
             contentPanel.add(panel, gbc);
-            gbc.gridy++; // Move to the next row
+            gbc.gridy++; 
         }
 
         JScrollPane scrollPane = new JScrollPane(contentPanel);
