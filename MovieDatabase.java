@@ -34,6 +34,7 @@ public class MovieDatabase {
             e.printStackTrace();
         }
     }
+
     public static void addMovie(Movie movie) {
 
         try (FileWriter fw = new FileWriter("DB/Movie.csv", true)) {
@@ -91,5 +92,31 @@ public class MovieDatabase {
         }
         return al;
     }
+    
+    public static void removeFromWatchlist(String movieTitle, User user) {
+        ArrayList<Movie> al = getUserDB(user);
+        Iterator<Movie> iter = al.iterator();
 
+        while (iter.hasNext()) {
+            Movie movie = iter.next();
+            if (movie.getTitle().equals(movieTitle)) {
+                iter.remove();
+                break;
+            }
+        }
+
+        try (FileWriter fw = new FileWriter("DB/UserDB/DB" + user.getUsername() + ".csv");
+                BufferedWriter bw = new BufferedWriter(fw)) {
+
+            bw.write("Title, Director, Year, Runtime\n");
+
+            for (Movie movie : al) {
+                String temp = String.format("%s, %s, %d, %d\n", movie.getTitle(), movie.getDirector(),
+                        movie.getReleasedYear(), movie.getRunningTime());
+                bw.write(temp);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

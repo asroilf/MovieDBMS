@@ -10,10 +10,6 @@ import javax.swing.JTextField;
 
 public class AddMovie extends JFrame implements ActionListener {
 
-
-
-
-
     JButton add = new JButton("add");
     JLabel directorLabel = new JLabel("Director : ");
     JTextField directorField = new JTextField();

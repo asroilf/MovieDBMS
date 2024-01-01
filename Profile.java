@@ -69,16 +69,9 @@ public class Profile extends JFrame {
             // Add ActionListener to the "Remove" button
             removeButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    // Get the title of the movie associated with the clicked "Remove" button
                     String movieTitle = movie.getTitle();
-
-                    // Call the removeMovie method from MovieDatabase to remove the movie
-                    MovieDatabase.removeMovie(movieTitle);
-
-                    // Remove the panel from the GUI
+                    MovieDatabase.removeFromWatchlist(movieTitle, Register.getLoggedIn());
                     contentPanel.remove(panel);
-
-                    // Repaint and revalidate the container to reflect the change
                     contentPanel.revalidate();
                     contentPanel.repaint();
                 }
