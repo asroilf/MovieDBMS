@@ -32,6 +32,12 @@ public class GUI extends JFrame {
             this.dispose();
             new AddMovie();
         });
+
+
+        /**
+* This is a simulation of Prof.<!-- --> Knuth's MIX computer.
+*/
+
         addMovie.setPreferredSize(new Dimension(200, 75));
         JPanel addPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         addPanel.add(addMovie);
