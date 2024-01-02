@@ -4,7 +4,6 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,7 +11,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
-
 
 /**
  * This class represents a Graphical User Interface (GUI) for the local movie database.
@@ -36,7 +34,6 @@ public class GUI extends JFrame {
      * Initializes the graphical interface, sets its size and title, and adds various components.
      * Users can interact with the GUI to view, sort, and filter movies.
      */
-
 
     GUI() {
         this.setVisible(true);
@@ -119,9 +116,31 @@ public class GUI extends JFrame {
             this.dispose();
             new GUI();
         });
+
+        JLabel searchL = new JLabel("search:");
+        JTextField searchF = new JTextField();
+        searchF.setPreferredSize(new Dimension(50, 20));
+        JButton search = new JButton("search");
+        search.addActionListener(e->{
+            String txt = searchF.getText();
+            if(txt.length()==0){
+                JOptionPane.showMessageDialog(this, "Please fill the blank!");
+            }else{
+                Movie movie = MovieDatabase.retrieveMovie(txt);
+                if(movie==null){
+                    JOptionPane.showMessageDialog(this, "No such movie!");
+                }else{
+                    String formatted = String.format("Title: %s\n Director: %s\n Year: %d\n Runtime: %d", movie.getTitle(), movie.getDirector(), movie.getReleasedYear(), movie.getRunningTime());
+                    JOptionPane.showMessageDialog(this, formatted);
+                }
+            }
+        });
+        
         addPanel.add(sortBy);
         addPanel.add(filter);
-
+        addPanel.add(searchL);
+        addPanel.add(searchF);
+        addPanel.add(search);
         container.add(addPanel, BorderLayout.NORTH);
 
         for (int i = 0; i < allMovies.size(); i++) {
@@ -143,7 +162,6 @@ public class GUI extends JFrame {
                     "<html><div style='text-align: left; padding:10px;'>" + movieInfo + "</div></html>");
 
             panel.add(label, BorderLayout.CENTER);
-
             JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 5, 5));
 
             JButton addToWatchlistButton = new JButton("Add to Watchlist");

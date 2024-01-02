@@ -23,7 +23,7 @@ public class Profile extends JFrame {
 
     Profile() {
         this.setVisible(true);
-        this.setSize(800, 600); // Adjust the size according to your preference
+        this.setSize(800, 600);
         this.setTitle("Local Movie Database");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -69,16 +69,12 @@ public class Profile extends JFrame {
 
             panel.add(label, BorderLayout.CENTER);
 
-            // Create a panel for buttons
             JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 5, 5));
-            // Create and add the "Remove" button
             JButton removeButton = new JButton("Remove");
             buttonPanel.add(removeButton);
 
-            // Create a reference to the movie for the ActionListener
             Movie movie = alm.get(i);
 
-            // Add ActionListener to the "Remove" button
             removeButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     String movieTitle = movie.getTitle();

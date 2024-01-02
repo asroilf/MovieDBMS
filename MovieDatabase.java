@@ -15,17 +15,13 @@ public class MovieDatabase {
     /**
      * A TreeSet that stores unique director names from the movies in the database.
      */
-
     static TreeSet<String> directors = new TreeSet<>(); 
-
 
     /**
      * Removes a movie from the database based on its title.
      *
      * @param movieTitle The title of the movie to be removed.
      */
-
-
     public static void removeMovie(String movieTitle) {
         ArrayList<Movie> al = allMovies();
         Iterator<Movie> iter = al.iterator();
@@ -34,16 +30,13 @@ public class MovieDatabase {
             Movie movie = iter.next();
             if (movie.getTitle().equals(movieTitle)) {
                 iter.remove();
-                break; // Exit the loop after removing the movie
+                break;
             }
         }
-
         try (FileWriter fw = new FileWriter("DB/Movie.csv");
                 BufferedWriter bw = new BufferedWriter(fw)) {
-            // Write the CSV header
             bw.write("Title, Director, Year, Runtime\n");
 
-            // Write the remaining movies
             for (Movie movie : al) {
                 String temp = String.format("%s, %s, %d, %d\n", movie.getTitle(), movie.getDirector(),
                         movie.getReleasedYear(), movie.getRunningTime());
@@ -59,16 +52,13 @@ public class MovieDatabase {
      *
      * @param movie The Movie object to be added to the database.
      */
-
     public static void addMovie(Movie movie) {
-
         try (FileWriter fw = new FileWriter("DB/Movie.csv", true)) {
             String temp = String.format("%s, %s, %d, %d\n", movie.getTitle(), movie.getDirector(), movie.getReleasedYear(), movie.getRunningTime());
             fw.append(temp);
         } catch (IOException e) {
             e.printStackTrace();
         } 
-
     }
     
      /**
@@ -77,7 +67,6 @@ public class MovieDatabase {
      * @param title The title of the movie to retrieve.
      * @return The Movie object with the specified title, or a default Movie object if not found.
      */
-
     public static Movie retrieveMovie(String title) {
         ArrayList<Movie> al = allMovies();
         Iterator<Movie> iter = al.iterator();
@@ -87,7 +76,7 @@ public class MovieDatabase {
                 return x;
             }
         }
-        return new Movie();
+        return null;
     }
 
     /**
@@ -111,7 +100,6 @@ public class MovieDatabase {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return al;
     }
 
@@ -147,7 +135,6 @@ public class MovieDatabase {
      * @param user       The User object whose watchlist is being modified.
      */
 
-
     public static void removeFromWatchlist(String movieTitle, User user) {
         ArrayList<Movie> al = getUserDB(user);
         Iterator<Movie> iter = al.iterator();
@@ -159,7 +146,6 @@ public class MovieDatabase {
                 break;
             }
         }
-
         try (FileWriter fw = new FileWriter("DB/UserDB/DB" + user.getUsername() + ".csv");
                 BufferedWriter bw = new BufferedWriter(fw)) {
             bw.write("Title, Director, Year, Runtime\n");

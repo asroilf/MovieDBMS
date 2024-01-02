@@ -17,15 +17,22 @@ public class DemoTest {
      */
     @Test
     public void testLogin() {
-        // Create User objects
         User user = new User("ai", "Farid", "ai");
         User user1 = new User("ai", "Farid", "ai");
         User user2 = User.login("a1", "ai");
-
-        // Check if user names match
         assertEquals(user.getName(), user1.getName());
-
-        // Check if the login method returns null when invalid credentials are provided
         assertEquals(null, user2);
+    }
+
+    /**
+     * Test case for MovieDatabase.retrieveMovie() method.
+     * It checks if the method provides correct movie details from the database or not.
+     */
+    @Test
+    public void testRetrieveMovie(){
+        Movie movie = new Movie("Tenet", "Nolan", 2000, 200);
+        Movie movie2 = MovieDatabase.retrieveMovie("Tenet");
+        assertEquals(movie.getDirector(), movie2.getDirector());
+        assertEquals(null, MovieDatabase.retrieveMovie("Maze Runner"));
     }
 }
