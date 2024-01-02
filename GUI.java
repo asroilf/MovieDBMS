@@ -8,12 +8,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class GUI extends JFrame {
     private Container container = getContentPane();
     private JPanel contentPanel;
 
-    static ArrayList<Movie> alm = MovieDatabase.allMovies();
+    private static ArrayList<Movie> allMovies = MovieDatabase.allMovies();
+    private TreeSet<String> directors = MovieDatabase.directors;
 
     GUI() {
         this.setVisible(true);
@@ -33,9 +36,8 @@ public class GUI extends JFrame {
         JButton addMovie = new JButton("Add Movie");
         addMovie.addActionListener((e) -> {
             new AddMovie();
-            this.dispose();
         });
-        addMovie.setPreferredSize(new Dimension(200, 75));
+        addMovie.setPreferredSize(new Dimension(130, 50));
         JPanel addPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         addPanel.add(addMovie);
         // container.add(addPanel, BorderLayout.NORTH);
@@ -45,7 +47,7 @@ public class GUI extends JFrame {
             this.dispose();
             new Profile();
         });
-        profile.setPreferredSize(new Dimension(200, 75));
+        profile.setPreferredSize(new Dimension(130, 50));
         // addPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         addPanel.add(profile);
 
@@ -54,37 +56,40 @@ public class GUI extends JFrame {
         
         sortBy.addActionListener((e)->{
             if(sortBy.getSelectedItem().equals("Year")){
-                Collections.sort(alm);
-                contentPanel.revalidate();
-                contentPanel.repaint();
+                Collections.sort(allMovies);
             }
             else if(sortBy.getSelectedItem().equals("Runtime")){
-                alm.sort((Movie m1, Movie m2)->{
+                allMovies.sort((Movie m1, Movie m2)->{
                     return m2.getRunningTime() - m1.getRunningTime();
                 });
             }
             else if(sortBy.getSelectedItem().equals("Title")){
-                Collections.sort(alm, Comparator.comparing(Movie::getTitle));
+                Collections.sort(allMovies, Comparator.comparing(Movie::getTitle));
             }
-
+            contentPanel.revalidate();
+            contentPanel.repaint();
             this.dispose();
             new GUI();
         });
-        
-        Iterator<String> iter = MovieDatabase.directors.iterator();
-
-        String strr[] = new String[MovieDatabase.directors.size()];
-        int j=0;
+        Iterator<String> iter = directors.iterator();
+        String strr[] = new String[directors.size()+1];
+        strr[0]="All";
+        int j=1;
         while(iter.hasNext()){
             strr[j] = iter.next();
             j++;
         }
-
         JComboBox<String> filter = new JComboBox<>(strr);
         filter.addActionListener((e)->{
-            alm.stream().filter((ee)->{
-                return ee.getDirector().equals(filter.getSelectedItem());
-            });
+            if(filter.getSelectedItem().equals("All")){
+                allMovies = MovieDatabase.allMovies();
+                directors = MovieDatabase.directors;
+            }
+            else{
+                allMovies = (ArrayList<Movie>) MovieDatabase.allMovies().stream().filter((ee)->{
+                    return ee.getDirector().equals(filter.getSelectedItem());
+                }).collect(Collectors.toList());
+            }
             this.dispose();
             new GUI();
         });
@@ -93,11 +98,11 @@ public class GUI extends JFrame {
 
         container.add(addPanel, BorderLayout.NORTH);
 
-        for (int i = 0; i < alm.size(); i++) {
-            String title = alm.get(i).getTitle();
-            String director = alm.get(i).getDirector();
-            int year = alm.get(i).getReleasedYear();
-            int runtime = alm.get(i).getRunningTime();
+        for (int i = 0; i < allMovies.size(); i++) {
+            String title = allMovies.get(i).getTitle();
+            String director = allMovies.get(i).getDirector();
+            int year = allMovies.get(i).getReleasedYear();
+            int runtime = allMovies.get(i).getRunningTime();
             Border insideBorder = BorderFactory.createTitledBorder(title);
 
             JPanel panel = new JPanel();
@@ -116,7 +121,6 @@ public class GUI extends JFrame {
             // Create a panel for buttons
             JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 5, 5));
 
-            // Create and add the "Add to Watchlist" button
             JButton addToWatchlistButton = new JButton("Add to Watchlist");
             addToWatchlistButton.addActionListener((e) -> {
                 User user = Register.getLoggedIn();
@@ -129,26 +133,18 @@ public class GUI extends JFrame {
             });
             buttonPanel.add(addToWatchlistButton);
 
-            // Create and add the "Remove" button
             JButton removeButton = new JButton("Remove");
             buttonPanel.add(removeButton);
 
-            // Create a reference to the movie for the ActionListener
-            Movie movie = alm.get(i);
+            Movie movie = allMovies.get(i);
 
-            // Add ActionListener to the "Remove" button
             removeButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    // Get the title of the movie associated with the clicked "Remove" button
                     String movieTitle = movie.getTitle();
 
-                    // Call the removeMovie method from MovieDatabase to remove the movie
                     MovieDatabase.removeMovie(movieTitle);
 
-                    // Remove the panel from the GUI
                     contentPanel.remove(panel);
-
-                    // Repaint and revalidate the container to reflect the change
                     contentPanel.revalidate();
                     contentPanel.repaint();
                 }
@@ -161,12 +157,11 @@ public class GUI extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane(contentPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
         container.add(scrollPane);
     }
 
 
-    // Add Movie
+
     class AddMovie extends JFrame implements ActionListener {
         JButton add = new JButton("add");
         JLabel directorLabel = new JLabel("Director : ");
@@ -178,7 +173,9 @@ public class GUI extends JFrame {
         JLabel titleLabel = new JLabel("Title: ");
         JTextField titleField = new JTextField();
         Container container = getContentPane();
-    
+        JLabel warning1 = new JLabel("To see the update please click the 'All'");
+        JLabel warning2 = new JLabel("in filter by director section!!!");
+
         public AddMovie() {
             basic();
             container.setLayout(null);
@@ -193,26 +190,31 @@ public class GUI extends JFrame {
             container.add(yearField);
             container.add(runtimeField);
             container.add(add);
+            container.add(warning1);
+            container.add(warning2);
         }
     
         public void basic() {
             this.setVisible(true);
             this.setBounds(450, 100, 370, 600);
-            this.setTitle("Local Movie Database");
+            this.setTitle("Add New Movie");
         }
     
         private void setSize() {
             titleLabel.setBounds(50, 90, 100, 30);
             directorLabel.setBounds(50, 150, 100, 30);
-            yearLabel.setBounds(50, 220, 100, 30);
-            runtimeLabel.setBounds(50, 290, 100, 30);
+            yearLabel.setBounds(50, 220, 150, 30);
+            runtimeLabel.setBounds(50, 290, 150, 30);
     
             titleField.setBounds(150, 90, 150, 30);
             directorField.setBounds(150, 150, 150, 30);
             yearField.setBounds(150, 220, 150, 30);
             runtimeField.setBounds(150, 290, 150, 30);
-    
             add.setBounds(50, 370, 100, 30);
+            warning1.setFont(new Font("Italic", Font.ITALIC, 15));
+            warning2.setFont(new Font("Italic", Font.ITALIC, 15));
+            warning1.setBounds(30, 410, 300, 20);
+            warning2.setBounds(30, 430, 300, 20);
         }
     
         @Override
@@ -229,7 +231,6 @@ public class GUI extends JFrame {
                         Movie movie = new Movie(this.titleField.getText(),  this.directorField.getText(), year, runtime);
                         MovieDatabase.addMovie(movie);
                         this.dispose();
-                        new GUI();
                     }catch(NumberFormatException ee){
                         JOptionPane.showMessageDialog(this, "Year and runtime should contain only digits!"); 
                     }
