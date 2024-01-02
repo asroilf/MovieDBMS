@@ -12,6 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import org.junit.Test;
+
 class Register extends JFrame implements ActionListener{
     private static User loggedIn;
 
@@ -49,7 +51,7 @@ class Register extends JFrame implements ActionListener{
     public void basic(){
         this.setVisible(true);
         this.setBounds(450, 100, 370, 600);
-        this.setTitle("Local Movie Database");
+        this.setTitle("Register");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -78,13 +80,11 @@ class Register extends JFrame implements ActionListener{
                 try {
                     file.createNewFile();
                 } catch (IOException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
                 try (FileWriter fw = new FileWriter(file)) {
                     fw.write("Title, Director, Year, Runtime");
                 } catch (IOException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
                 loggedIn = newUser;
