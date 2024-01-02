@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-class Movie implements Serializable {
+class Movie implements Serializable, Comparable<Movie> {
 	private String title;
 	private String director;
 	private int releasedYear;
@@ -67,5 +67,11 @@ class Movie implements Serializable {
 	public String toString() {
 		return this.getTitle() + " " + this.getDirector() + " " + this.releasedYear + " " + this.runningTime;
 	}
+
+	@Override
+    public int compareTo(Movie o) {
+        return o.releasedYear - this.getReleasedYear();
+    }
 }
+
 // Blyoop

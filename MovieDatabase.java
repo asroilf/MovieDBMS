@@ -1,11 +1,12 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.TreeSet;
 
-import javax.annotation.processing.FilerException;
 
 public class MovieDatabase {
-    // ... other methods ...
+
+    static TreeSet<String> directors = new TreeSet<>(); 
 
     public static void removeMovie(String movieTitle) {
         ArrayList<Movie> al = allMovies();
@@ -34,6 +35,7 @@ public class MovieDatabase {
             e.printStackTrace();
         }
     }
+
     public static void addMovie(Movie movie) {
 
         try (FileWriter fw = new FileWriter("DB/Movie.csv", true)) {
@@ -66,6 +68,7 @@ public class MovieDatabase {
                 String[] strar = str.split(", ");
                 Movie temp = new Movie(strar[0], strar[1], Integer.parseInt(strar[2]), Integer.parseInt(strar[3]));
                 al.add(temp);
+                directors.add(strar[1]);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -91,5 +94,30 @@ public class MovieDatabase {
         }
         return al;
     }
+    
+    public static void removeFromWatchlist(String movieTitle, User user) {
+        ArrayList<Movie> al = getUserDB(user);
+        Iterator<Movie> iter = al.iterator();
 
+        while (iter.hasNext()) {
+            Movie movie = iter.next();
+            if (movie.getTitle().equals(movieTitle)) {
+                iter.remove();
+                break;
+            }
+        }
+
+        try (FileWriter fw = new FileWriter("DB/UserDB/DB" + user.getUsername() + ".csv");
+                BufferedWriter bw = new BufferedWriter(fw)) {
+            bw.write("Title, Director, Year, Runtime\n");
+
+            for (Movie movie : al) {
+                String temp = String.format("%s, %s, %d, %d\n", movie.getTitle(), movie.getDirector(),
+                        movie.getReleasedYear(), movie.getRunningTime());
+                bw.write(temp);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

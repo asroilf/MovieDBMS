@@ -9,11 +9,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class AddMovie extends JFrame implements ActionListener {
-
-
-
-
-
     JButton add = new JButton("add");
     JLabel directorLabel = new JLabel("Director : ");
     JTextField directorField = new JTextField();
@@ -45,7 +40,6 @@ public class AddMovie extends JFrame implements ActionListener {
         this.setVisible(true);
         this.setBounds(450, 100, 370, 600);
         this.setTitle("Local Movie Database");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private void setSize() {
@@ -69,12 +63,18 @@ public class AddMovie extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(this, "Please fill all the gaps!"); 
             }
             else{
-                this.dispose();
-                Movie movie = new Movie(this.titleField.getText(),  this.directorField.getText(),  Integer.valueOf(this.yearField.getText()), Integer.valueOf(this.runtimeField.getText()));
-                MovieDatabase.addMovie(movie);
-                new GUI();
+                int runtime, year;
+                try{
+                    runtime = Integer.valueOf(this.runtimeField.getText());
+                    year =  Integer.valueOf(this.yearField.getText());
+                    Movie movie = new Movie(this.titleField.getText(),  this.directorField.getText(), year, runtime);
+                    MovieDatabase.addMovie(movie);
+                    this.dispose();
+                    new GUI();
+                }catch(NumberFormatException ee){
+                    JOptionPane.showMessageDialog(this, "Year and runtime should contain only digits!"); 
+                }
             }
         }
     }
-
 }

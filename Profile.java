@@ -3,7 +3,6 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class Profile extends JFrame {
@@ -69,16 +68,9 @@ public class Profile extends JFrame {
             // Add ActionListener to the "Remove" button
             removeButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    // Get the title of the movie associated with the clicked "Remove" button
                     String movieTitle = movie.getTitle();
-
-                    // Call the removeMovie method from MovieDatabase to remove the movie
-                    MovieDatabase.removeMovie(movieTitle);
-
-                    // Remove the panel from the GUI
+                    MovieDatabase.removeFromWatchlist(movieTitle, Register.getLoggedIn());
                     contentPanel.remove(panel);
-
-                    // Repaint and revalidate the container to reflect the change
                     contentPanel.revalidate();
                     contentPanel.repaint();
                 }
@@ -93,22 +85,5 @@ public class Profile extends JFrame {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         container.add(scrollPane);
-    }
-
-    private class AddMovie extends JFrame {
-        private Container container = getContentPane();
-
-        AddMovie() {
-            this.setVisible(true);
-            this.setSize(800, 600); // Adjust the size according to your preference
-            this.setTitle("Local Movie Database");
-            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-            JTextField title = new JTextField();
-            JTextField director = new JTextField();
-            JTextField year = new JTextField();
-            JTextField running = new JTextField();
-
-        }
     }
 }
