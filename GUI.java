@@ -37,6 +37,11 @@ public class GUI extends JFrame {
         addMovie.addActionListener((e) -> {
             new AddMovie();
         });
+        /**
+* This is a simulation of Prof.<!-- --> Knuth's MIX computer.
+*/
+
+        addMovie.setPreferredSize(new Dimension(200, 75));
         addMovie.setPreferredSize(new Dimension(130, 50));
         JPanel addPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         addPanel.add(addMovie);
@@ -162,7 +167,7 @@ public class GUI extends JFrame {
     }
 
 
-
+ 
     class AddMovie extends JFrame implements ActionListener {
         JButton add = new JButton("add");
         JLabel directorLabel = new JLabel("Director : ");
@@ -241,3 +246,4 @@ public class GUI extends JFrame {
     }
     
 }
+ 
