@@ -3,7 +3,6 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class Profile extends JFrame {
@@ -86,22 +85,5 @@ public class Profile extends JFrame {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         container.add(scrollPane);
-    }
-
-    private class AddMovie extends JFrame {
-        private Container container = getContentPane();
-
-        AddMovie() {
-            this.setVisible(true);
-            this.setSize(800, 600); // Adjust the size according to your preference
-            this.setTitle("Local Movie Database");
-            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-            JTextField title = new JTextField();
-            JTextField director = new JTextField();
-            JTextField year = new JTextField();
-            JTextField running = new JTextField();
-
-        }
     }
 }

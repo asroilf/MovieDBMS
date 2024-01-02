@@ -72,16 +72,17 @@ public class GUI extends JFrame {
             new GUI();
         });
         Iterator<String> iter = directors.iterator();
-        String strr[] = new String[directors.size()+1];
-        strr[0]="All";
-        int j=1;
+        String strr[] = new String[directors.size()+2];
+        strr[0]="Filter By Directors";
+        strr[1]="All";
+        int j=2;
         while(iter.hasNext()){
             strr[j] = iter.next();
             j++;
         }
         JComboBox<String> filter = new JComboBox<>(strr);
         filter.addActionListener((e)->{
-            if(filter.getSelectedItem().equals("All")){
+            if(filter.getSelectedItem().equals("All") || filter.getSelectedItem().equals("Filter By Directors")){
                 allMovies = MovieDatabase.allMovies();
                 directors = MovieDatabase.directors;
             }
