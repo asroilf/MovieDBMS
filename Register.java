@@ -4,7 +4,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,7 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import org.junit.Test;
+import CustomExceptions.UsernameExistsException;
 
 class Register extends JFrame implements ActionListener{
     private static User loggedIn;
@@ -20,7 +19,6 @@ class Register extends JFrame implements ActionListener{
     static User getLoggedIn() {
         return loggedIn;
     }
-
     static void setLoggedIn(User user){
         loggedIn = user;
     }
@@ -72,26 +70,28 @@ class Register extends JFrame implements ActionListener{
                 JOptionPane.showMessageDialog(this, "Please fill all the gaps!"); 
             }
             else{
-                this.dispose();
                 User newUser = new User(this.username.getText(), this.name.getText(), String.valueOf(this.password.getPassword()));
-                User.register(newUser);
-                String username = String.format("DB/UserDB/DB%s.csv", newUser.getUsername());
-                File file = new File(username);
-                try {
-                    file.createNewFile();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+                try{
+                    User.register(newUser);
+                    String username = String.format("DB/UserDB/DB%s.csv", newUser.getUsername());
+                    File file = new File(username);
+                    try {
+                        file.createNewFile();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                    try (FileWriter fw = new FileWriter(file)) {
+                        fw.write("Title, Director, Year, Runtime\n");
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                    loggedIn = newUser;
+                    this.dispose();
+                    new GUI();
+                }catch (UsernameExistsException error){
+                    JOptionPane.showMessageDialog(this, error.getMessage());
                 }
-                try (FileWriter fw = new FileWriter(file)) {
-                    fw.write("Title, Director, Year, Runtime");
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-                loggedIn = newUser;
-                new GUI();
             }
         }
     }
-
-
 }

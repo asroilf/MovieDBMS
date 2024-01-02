@@ -7,18 +7,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import CustomExceptions.UsernameExistsException;
+
 public class User implements Serializable {
     private String username;
     private String name;
     private String password;
-    // private int[] dob;
     private static int countUsers = 0;
 
     public User(String username, String name, String password) {
         this.username = username;
         this.name = name;
         this.password = password;
-        // this.dob = dob;
         countUsers++;
     }
 
@@ -26,7 +26,6 @@ public class User implements Serializable {
         this.username = username;
         this.name = "John Wick";
         this.password = password;
-        // dob = new int[] { 9, 9, 1999 };
         countUsers++;
     }
 
@@ -91,16 +90,21 @@ public class User implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return al;
     }
 
-    public static void register(User user) {
+    public static void register(User user) throws UsernameExistsException {
         String str = String.format("%s, %s, %s\n", user.getUsername(), user.getName(), user.getPassword());
-        try (BufferedWriter bfrr = new BufferedWriter(new FileWriter("DB/User.csv", true))) {
-            bfrr.append(str);
-        } catch (Exception e) {
-            e.printStackTrace();
+        boolean exists = User.allUsers().stream().anyMatch(e-> user.getUsername().equals(e.getUsername()));
+        if(exists){
+            throw new UsernameExistsException();
+        }
+        else{
+            try (BufferedWriter bfrr = new BufferedWriter(new FileWriter("DB/User.csv", true))) {
+                bfrr.append(str);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
