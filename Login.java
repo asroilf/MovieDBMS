@@ -77,7 +77,7 @@ public class Login extends JFrame implements ActionListener{
             String uname = username.getText();
             String pass = String.valueOf(password.getPassword());
             if(uname.length()==0 || pass.length()==0){
-                JOptionPane.showMessageDialog(this, "Please fill all the credentials part");
+                JOptionPane.showMessageDialog(this, "Please fill in your credentials");
             }
             else{
                 User status = User.login(uname, pass);
