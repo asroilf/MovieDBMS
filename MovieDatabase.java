@@ -3,10 +3,28 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-
+/**
+ * The MovieDatabase class provides methods for managing movie data within the Local Movie Database.
+ * It manages operations such as adding, retrieving, and removing movies, as well as user-specific movie lists.
+ *
+ * @author Farid, Melek, Asliddin
+ * @version 4.0
+ */
 public class MovieDatabase {
 
+    /**
+     * A TreeSet that stores unique director names from the movies in the database.
+     */
+
     static TreeSet<String> directors = new TreeSet<>(); 
+
+
+    /**
+     * Removes a movie from the database based on its title.
+     *
+     * @param movieTitle The title of the movie to be removed.
+     */
+
 
     public static void removeMovie(String movieTitle) {
         ArrayList<Movie> al = allMovies();
@@ -36,6 +54,12 @@ public class MovieDatabase {
         }
     }
 
+    /**
+     * Adds a new movie to the database.
+     *
+     * @param movie The Movie object to be added to the database.
+     */
+
     public static void addMovie(Movie movie) {
 
         try (FileWriter fw = new FileWriter("DB/Movie.csv", true)) {
@@ -46,6 +70,14 @@ public class MovieDatabase {
         } 
 
     }
+    
+     /**
+     * Retrieves a movie from the database based on its title.
+     *
+     * @param title The title of the movie to retrieve.
+     * @return The Movie object with the specified title, or a default Movie object if not found.
+     */
+
     public static Movie retrieveMovie(String title) {
         ArrayList<Movie> al = allMovies();
         Iterator<Movie> iter = al.iterator();
@@ -57,6 +89,12 @@ public class MovieDatabase {
         }
         return new Movie();
     }
+
+    /**
+     * Retrieves all movies from the database and fills in an ArrayList.
+     *
+     * @return An ArrayList containing all Movie objects in the database.
+     */
 
     public static ArrayList<Movie> allMovies() {
         ArrayList<Movie> al = new ArrayList<>();
@@ -77,6 +115,13 @@ public class MovieDatabase {
         return al;
     }
 
+     /**
+     * Retrieves a user-specific movie list from their database file.
+     *
+     * @param user The User object associated with the movie list.
+     * @return An ArrayList containing Movie objects in the user's movie list.
+     */
+
     public static ArrayList<Movie> getUserDB(User user) {
         ArrayList<Movie> al = new ArrayList<>();
         
@@ -95,6 +140,14 @@ public class MovieDatabase {
         return al;
     }
     
+    /**
+     * Removes a movie from a user's watchlist within their database file.
+     *
+     * @param movieTitle The title of the movie to remove from the user's watchlist.
+     * @param user       The User object whose watchlist is being modified.
+     */
+
+
     public static void removeFromWatchlist(String movieTitle, User user) {
         ArrayList<Movie> al = getUserDB(user);
         Iterator<Movie> iter = al.iterator();

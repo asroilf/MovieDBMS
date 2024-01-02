@@ -1,8 +1,10 @@
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,16 +13,34 @@ import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+
+/**
+ * This class represents a Graphical User Interface (GUI) for the local movie database.
+ * Users can view, add, and manage movies in the database through this interface.
+ * The GUI includes options for sorting and filtering movies by different criteria.
+ *
+ * @author Asliddin
+ * @version 6.0
+ */
+
 public class GUI extends JFrame {
     private Container container = getContentPane();
     private JPanel contentPanel;
-
     private static ArrayList<Movie> allMovies = MovieDatabase.allMovies();
     private TreeSet<String> directors = MovieDatabase.directors;
 
+
+
+     /**
+     * Constructs a new GUI window for the local movie database.
+     * Initializes the graphical interface, sets its size and title, and adds various components.
+     * Users can interact with the GUI to view, sort, and filter movies.
+     */
+
+
     GUI() {
         this.setVisible(true);
-        this.setSize(800, 600); // Adjust the size according to your preference
+        this.setSize(800, 600);
         this.setTitle("Local Movie Database");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         contentPanel = new JPanel(new GridBagLayout());
@@ -37,15 +57,16 @@ public class GUI extends JFrame {
         addMovie.addActionListener((e) -> {
             new AddMovie();
         });
-        /**
-* This is a simulation of Prof.<!-- --> Knuth's MIX computer.
-*/
+
+      /**
+     * Inner class representing a window for adding a new movie to the database.
+     * Users can input movie details such as title, director, release year, and runtime.
+     */
 
         addMovie.setPreferredSize(new Dimension(200, 75));
         addMovie.setPreferredSize(new Dimension(130, 50));
         JPanel addPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         addPanel.add(addMovie);
-        // container.add(addPanel, BorderLayout.NORTH);
 
         JButton profile = new JButton("Profile");
         profile.addActionListener((e) -> {
@@ -53,7 +74,6 @@ public class GUI extends JFrame {
             new Profile();
         });
         profile.setPreferredSize(new Dimension(130, 50));
-        // addPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         addPanel.add(profile);
 
         String[] str = {"sort by: ", "Title", "Year", "Runtime"};
@@ -124,17 +144,22 @@ public class GUI extends JFrame {
 
             panel.add(label, BorderLayout.CENTER);
 
-            // Create a panel for buttons
             JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 5, 5));
 
             JButton addToWatchlistButton = new JButton("Add to Watchlist");
             addToWatchlistButton.addActionListener((e) -> {
                 User user = Register.getLoggedIn();
-                try (FileWriter fw = new FileWriter(String.format("DB/UserDB/DB%s.csv", user.getUsername()), true)) {
-                    String movie = String.format("\n%s, %s, %d, %d", title, director, year, runtime);
-                    fw.append(movie);
-                } catch (Exception ex) {
-                    // TODO: handle exception
+                ArrayList<Movie> watchlist = MovieDatabase.getUserDB(user);
+                boolean exists = watchlist.stream().anyMatch((t)->t.getTitle().equals(title));
+                if(!exists){
+                    try (FileWriter fw = new FileWriter(String.format("DB/UserDB/DB%s.csv", user.getUsername()), true)) {
+                        String movie = String.format("%s, %s, %d, %d\n", title, director, year, runtime);
+                        fw.append(movie);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(this, "This movie already exists in your watchlist!");
                 }
             });
             buttonPanel.add(addToWatchlistButton);
@@ -149,7 +174,6 @@ public class GUI extends JFrame {
                     String movieTitle = movie.getTitle();
 
                     MovieDatabase.removeMovie(movieTitle);
-
                     contentPanel.remove(panel);
                     contentPanel.revalidate();
                     contentPanel.repaint();
@@ -166,8 +190,6 @@ public class GUI extends JFrame {
         container.add(scrollPane);
     }
 
-
- 
     class AddMovie extends JFrame implements ActionListener {
         JButton add = new JButton("add");
         JLabel directorLabel = new JLabel("Director : ");
@@ -199,7 +221,15 @@ public class GUI extends JFrame {
             container.add(warning1);
             container.add(warning2);
         }
-    
+
+        /**
+         * Performs an action when the add button is clicked in the AddMovie window.
+         * Validates user input for the new movie and adds it to the database if input is valid.
+         * Displays error messages for missing or invalid input.
+         *
+         * @param e The ActionEvent triggered by clicking the add button.
+         */
+
         public void basic() {
             this.setVisible(true);
             this.setBounds(450, 100, 370, 600);
@@ -211,7 +241,6 @@ public class GUI extends JFrame {
             directorLabel.setBounds(50, 150, 100, 30);
             yearLabel.setBounds(50, 220, 150, 30);
             runtimeLabel.setBounds(50, 290, 150, 30);
-    
             titleField.setBounds(150, 90, 150, 30);
             directorField.setBounds(150, 150, 150, 30);
             yearField.setBounds(150, 220, 150, 30);
@@ -234,7 +263,7 @@ public class GUI extends JFrame {
                     try{
                         runtime = Integer.valueOf(this.runtimeField.getText());
                         year =  Integer.valueOf(this.yearField.getText());
-                        Movie movie = new Movie(this.titleField.getText(),  this.directorField.getText(), year, runtime);
+                        Movie movie = new Movie(this.titleField.getText(), this.directorField.getText(), year, runtime);
                         MovieDatabase.addMovie(movie);
                         this.dispose();
                     }catch(NumberFormatException ee){
@@ -244,6 +273,5 @@ public class GUI extends JFrame {
             }
         }
     }
-    
 }
  

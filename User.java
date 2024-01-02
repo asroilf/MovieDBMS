@@ -6,29 +6,57 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+import CustomExceptions.UsernameExistsException;
 
+/**
+ * The User class represents a user in the Local Movie Database application.
+ * Users have attributes such as a username, full name, and password.
+ * This class provides methods for user registration, login, and retrieval of user data.
+ *
+ * @author  Melek
+ * @version 4.0
+ */
 public class User implements Serializable {
     private String username;
     private String name;
     private String password;
-    // private int[] dob;
     private static int countUsers = 0;
+
+    /**
+     * Constructs a new User object with the specified username, full name, and password.
+     *
+     * @param username The unique username of the user.
+     * @param name     The full name of the user.
+     * @param password The password associated with the user's account.
+     */
 
     public User(String username, String name, String password) {
         this.username = username;
         this.name = name;
         this.password = password;
-        // this.dob = dob;
         countUsers++;
     }
+
+     /**
+     * Constructs a new User object with the specified username and password.
+     * The full name is set to a default value.
+     *
+     * @param username The unique username of the user.
+     * @param password The password associated with the user's account.
+     */
 
     public User(String username, String password) {
         this.username = username;
         this.name = "John Wick";
         this.password = password;
-        // dob = new int[] { 9, 9, 1999 };
         countUsers++;
     }
+
+    /**
+     * Returns a string representation of the user's full name.
+     *
+     * @return The full name of the user.
+     */
 
     @Override
     public String toString() {
@@ -63,6 +91,14 @@ public class User implements Serializable {
         return countUsers;
     }
 
+     /**
+     * Attempts to log in a user with the provided username and password.
+     *
+     * @param username The username of the user attempting to log in.
+     * @param password The password provided for login.
+     * @return The User object representing the logged-in user, or null if login fails.
+     */
+
     public static User login(String username, String password) {
         ArrayList<User> alu = allUsers();
         Iterator<User> iterator = alu.iterator();
@@ -75,6 +111,12 @@ public class User implements Serializable {
         System.out.println("User isn't found, please doublecheck you credentials!");
         return null;
     }
+
+     /**
+     * Retrieves a list of all users stored in the database.
+     *
+     * @return An ArrayList containing all User objects in the database.
+     */
 
     private static ArrayList<User> allUsers() {
         ArrayList<User> al = new ArrayList<>();
@@ -91,16 +133,27 @@ public class User implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return al;
     }
 
-    public static void register(User user) {
+     /**
+     * Registers a new user by adding their information to the database.
+     *
+     * @param user The User object representing the new user to be registered.
+     */
+
+    public static void register(User user) throws UsernameExistsException {
         String str = String.format("%s, %s, %s\n", user.getUsername(), user.getName(), user.getPassword());
-        try (BufferedWriter bfrr = new BufferedWriter(new FileWriter("DB/User.csv", true))) {
-            bfrr.append(str);
-        } catch (Exception e) {
-            e.printStackTrace();
+        boolean exists = User.allUsers().stream().anyMatch(e-> user.getUsername().equals(e.getUsername()));
+        if(exists){
+            throw new UsernameExistsException();
+        }
+        else{
+            try (BufferedWriter bfrr = new BufferedWriter(new FileWriter("DB/User.csv", true))) {
+                bfrr.append(str);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
