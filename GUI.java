@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -11,12 +12,31 @@ import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+
+/**
+ * This class represents a Graphical User Interface (GUI) for the local movie database.
+ * Users can view, add, and manage movies in the database through this interface.
+ * The GUI includes options for sorting and filtering movies by different criteria.
+ *
+ * @author Asliddin
+ * @version 6.0
+ */
+
 public class GUI extends JFrame {
     private Container container = getContentPane();
     private JPanel contentPanel;
 
     private static ArrayList<Movie> allMovies = MovieDatabase.allMovies();
     private TreeSet<String> directors = MovieDatabase.directors;
+
+
+
+     /**
+     * Constructs a new GUI window for the local movie database.
+     * Initializes the graphical interface, sets its size and title, and adds various components.
+     * Users can interact with the GUI to view, sort, and filter movies.
+     */
+
 
     GUI() {
         this.setVisible(true);
@@ -37,9 +57,11 @@ public class GUI extends JFrame {
         addMovie.addActionListener((e) -> {
             new AddMovie();
         });
-        /**
-* This is a simulation of Prof.<!-- --> Knuth's MIX computer.
-*/
+
+      /**
+     * Inner class representing a window for adding a new movie to the database.
+     * Users can input movie details such as title, director, release year, and runtime.
+     */
 
         addMovie.setPreferredSize(new Dimension(200, 75));
         addMovie.setPreferredSize(new Dimension(130, 50));
@@ -199,7 +221,15 @@ public class GUI extends JFrame {
             container.add(warning1);
             container.add(warning2);
         }
-    
+
+        /**
+         * Performs an action when the add button is clicked in the AddMovie window.
+         * Validates user input for the new movie and adds it to the database if input is valid.
+         * Displays error messages for missing or invalid input.
+         *
+         * @param e The ActionEvent triggered by clicking the add button.
+         */
+
         public void basic() {
             this.setVisible(true);
             this.setBounds(450, 100, 370, 600);

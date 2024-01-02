@@ -5,8 +5,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * The Profile class represents a user's profile page in the Local Movie Database.
+ * Users can view and manage their movie watchlist on this page.
+ *
+ * @author  Melek
+ * @version 3.0
+ */ 
+ 
 public class Profile extends JFrame {
     private Container container = getContentPane();
+    
+      /**
+     * Constructs a new Profile window for displaying a user's watchlist.
+     * Users can view their movies and remove them from the watchlist.
+     */
 
     Profile() {
         this.setVisible(true);
@@ -78,7 +91,7 @@ public class Profile extends JFrame {
 
             panel.add(buttonPanel, BorderLayout.SOUTH);
             contentPanel.add(panel, gbc);
-            gbc.gridy++; // Move to the next row
+            gbc.gridy++; 
         }
 
         JScrollPane scrollPane = new JScrollPane(contentPanel);
