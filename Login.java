@@ -8,6 +8,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+/**
+ * The Login class represents a graphical user interface (GUI) for user login to the Local Movie Database.
+ * Users can input their username and password to access their accounts.
+ *
+ * @author  Farid
+ * @version 3.0
+ */ 
+ 
 public class Login extends JFrame implements ActionListener{
     Container container = getContentPane();
     JLabel usernameL = new JLabel("Username: ");
@@ -15,6 +23,11 @@ public class Login extends JFrame implements ActionListener{
     JTextField username = new JTextField();
     JPasswordField password = new JPasswordField();
     JButton login = new JButton("Login");
+
+    /**
+     * Constructs a new Login window for user authentication.
+     * Initializes the window's appearance, components, and layout.
+     */
 
     public Login(){
         basic();
@@ -28,12 +41,20 @@ public class Login extends JFrame implements ActionListener{
         container.add(login);
     }
 
+    /**
+     * Sets up the basic properties of the Login window, including its visibility, position, and title.
+     */
+
     public void basic(){
         this.setVisible(true);
         this.setBounds(450, 100, 370, 600);
         this.setTitle("Local Movie Database");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
+    /**
+     * Sets the size and position of various UI components within the Login window.
+     */
 
     private void setSize(){
         usernameL.setBounds(50, 150, 100, 30);
@@ -42,6 +63,14 @@ public class Login extends JFrame implements ActionListener{
         password.setBounds(150, 220, 150, 30);
         login.setBounds(50, 300, 100, 30);
     }
+
+    /**
+     * Manages user actions, specifically the login button click.
+     * Validates the entered credentials and grants access if they are correct.
+     * Displays error messages for missing or incorrect credentials.
+     *
+     * @param e The ActionEvent triggered by clicking the Login button.
+     */
 
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == login){

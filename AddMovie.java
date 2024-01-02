@@ -1,3 +1,12 @@
+/**
+ * The AddMovie class represents a JFrame for adding a new movie to a local movie database.
+ * It extends JFrame and implements ActionListener for managing button clicks by user.
+ *
+ * @author  Melek, Asliddin
+ * @version 3.0
+ */ 
+ 
+ 
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +29,9 @@ public class AddMovie extends JFrame implements ActionListener {
     JTextField titleField = new JTextField();
     Container container = getContentPane();
 
+    /**
+     * Constructs an AddMovie object and initializes the GUI components.
+     */
     public AddMovie() {
         basic();
         container.setLayout(null);
@@ -36,12 +48,18 @@ public class AddMovie extends JFrame implements ActionListener {
         container.add(add);
     }
 
+    /**
+     * Sets the basic properties of the JFrame window.
+     */
     public void basic() {
         this.setVisible(true);
         this.setBounds(450, 100, 370, 600);
         this.setTitle("Local Movie Database");
     }
 
+    /**
+     * Sets the size and position of various GUI components.
+     */
     private void setSize() {
         titleLabel.setBounds(50, 90, 100, 30);
         directorLabel.setBounds(50, 150, 100, 30);
@@ -56,6 +74,10 @@ public class AddMovie extends JFrame implements ActionListener {
         add.setBounds(50, 370, 100, 30);
     }
 
+    /**
+     * Handles the actionPerformed event for the add button.
+     * Validates input fields and adds a new movie to the database.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == add){
