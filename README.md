@@ -1,6 +1,6 @@
 # 🎬 Welcome to our Local Movie Database! 🍿
 
-Lights, camera, action! 🌟 Dive into the realm of cinematic delight with our Local Movie Database Java project. This interactive application brings the magic of movies to your fingertips. From logging in to curating your watchlist, it's all about curating your movie mania!
+🌟 Dive into the realm of cinematic delight with our Local Movie Database Java project. This interactive application brings the magic of movies to your fingertips. From logging in to curating your watchlist, it's all about curating your movie mania!
 
 ## Project Showcase 🎥
 
