@@ -78,5 +78,5 @@ Take a step through our `Main` class which is your entry point to a newly organi
 Grab your popcorn, sit back, and immerse yourself in the world of movies! 🎉✨
 
 
-Here is the video of the @authors explaining the code, enjoy! 
-https://youtu.be/Hv342k2uUpA
+## Here is the video of the @authors explaining the code, enjoy! 
+* https://youtu.be/Hv342k2uUpA
