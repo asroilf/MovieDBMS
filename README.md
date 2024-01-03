@@ -76,3 +76,7 @@ Take a step through our `Main` class which is your entry point to a newly organi
 * 🚧 Though all stars of the cast were continuously working with each other and editing and negotiating on code, the code couldn't be committed by all contributors at all times due to merging issues, but the contributors made sure to meet on set on a regular basis and commit together from one device to ensure a flawless performance.
 
 Grab your popcorn, sit back, and immerse yourself in the world of movies! 🎉✨
+
+
+Here is the video of the @authors explaining the code, enjoy! 
+https://youtu.be/Hv342k2uUpA
